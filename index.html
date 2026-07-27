@@ -1,1 +1,201 @@
-data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%3Chtml%20lang%3D%22hr%22%3E%3Chead%3E%3Cmeta%20charset%3D%22UTF-8%22%3E%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width,initial-scale%3D1%22%3E%3Cmeta%20name%3D%22apple-mobile-web-app-capable%22%20content%3D%22yes%22%3E%3Ctitle%3EAnagrami%20HR%3C%2Ftitle%3E%3Cstyle%3E*%7Bbox-sizing:border-box%7Dbody%7Bfont-family:system-ui,sans-serif;max-width:600px;margin:1em%20auto;padding:1em;background:%23fff;color:%23000%7D%40media(prefers-color-scheme:dark)%7Bbody%7Bbackground:%23121313;color:%23eee%7D%23output%7Bbackground:%231e1e1e!important;color:%23eee!important%7D%23progressContainer%7Bbackground:%23333!important%7Dinput%7Bbackground:%23222;color:%23eee;border-color:%23444%7D%7Dinput,button%7Bfont-size:1.1em;padding:.7em;width:100%25;margin:.5em%200;border-radius:8px;border:1px%20solid%20%23ccc%7Dinput%7Bbackground:%23fff;color:%23000%7Dbutton%7Bbackground:%230064c9;color:%23fff;border:none;font-weight:700;cursor:pointer%7Dbutton:disabled%7Bopacity:.5%7D%23output%7Bwhite-space:pre-wrap;background:%23f5f5f5;color:%23000;padding:1em;border-radius:8px;margin-top:1em;max-height:60vh;overflow:auto;font-size:1rem;line-height:1.5%7D%23progressContainer%7Bdisplay:none;width:100%25;height:20px;background:%23e0e0e0;border-radius:10px;margin:1em%200;overflow:hidden%7D%23progressBar%7Bwidth:100%25;height:100%25;background:%230064c9;animation:progressAnim%202s%20infinite%7D%40keyframes%20progressAnim%7B0%25%7Btransform:translateX(-100%25)%7D100%25%7Btransform:translateX(400%25)%7D%7D%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E%3Ch2%3E%F0%9F%87%AD%F0%9F%87%B7%20Anagrami%20imena%20i%20prezimena%3C%2Fh2%3E%3Cp%20style%3D%22text-align:center;opacity:.7%22%3EAutor%3A%20Damir%20Magdi%C4%87%3C%2Fp%3E%3Cinput%20id%3D%22ime%22%20placeholder%3D%22Ime%22%3E%3Cinput%20id%3D%22prezime%22%20placeholder%3D%22Prezime%22%3E%3Cbutton%20id%3D%22btn1%22%20onclick%3D%22trazi(1)%22%3EAnagram%20s%20jednom%20rije%C4%8Dju%3C%2Fbutton%3E%3Cbutton%20id%3D%22btn2%22%20onclick%3D%22trazi(2)%22%3EAnagrami%20s%20dvije%20rije%C4%8Di%3C%2Fbutton%3E%3Cbutton%20id%3D%22btn3%22%20onclick%3D%22trazi(3)%22%3EAnagrami%20s%20tri%20rije%C4%8Di%3C%2Fbutton%3E%3Cbutton%20id%3D%22loadBtn%22%20onclick%3D%22loadBigDict()%22%20style%3D%22background:%23333;font-weight:400%22%3EU%C4%8Ditaj%20pro%C5%A1ireni%20rje%C4%8Dnik%20(50k%2B%20rije%C4%8Di)%3C%2Fbutton%3E%3Cdiv%20id%3D%22progressContainer%22%3E%3Cdiv%20id%3D%22progressBar%22%3E%3C%2Fdiv%3E%3C%2Fdiv%3E%3Cdiv%20id%3D%22output%22%3EUnesite%20ime%20i%20prezime%20pa%20kliknite%20na%20jedan%20od%20gumba.%3C%2Fdiv%3E%3Cscript%3Econst%20smallDict%3D%5B%22a%22%2C%22ali%22%2C%22ako%22%2C%22ba%22%2C%22bar%22%2C%22bih%22%2C%22bio%22%2C%22biti%22%2C%22bog%22%2C%22bol%22%2C%22brat%22%2C%22broj%22%2C%22budem%22%2C%22budi%22%2C%22cesta%22%2C%22cure%22%2C%22%C4%8Daj%22%2C%22%C4%8Dekati%22%2C%22%C4%8Dovjek%22%2C%22%C4%87e%22%2C%22%C4%87u%22%2C%22da%22%2C%22dan%22%2C%22dana%22%2C%22dati%22%2C%22dio%22%2C%22djece%22%2C%22djeca%22%2C%22dobro%22%2C%22do%C4%87i%22%2C%22dok%22%2C%22dom%22%2C%22dosta%22%2C%22drugo%22%2C%22drugi%22%2C%22dr%C5%BEava%22%2C%22dugo%22%2C%22dva%22%2C%22dvije%22%2C%22evo%22%2C%22film%22%2C%22gaj%22%2C%22gdje%22%2C%22glas%22%2C%22glava%22%2C%22godina%22%2C%22grad%22%2C%22hrana%22%2C%22hrvatska%22%2C%22htjeti%22%2C%22i%22%2C%22iako%22%2C%22ili%22%2C%22imati%22%2C%22ime%22%2C%22ina%C4%8De%22%2C%22ipak%22%2C%22ispod%22%2C%22isto%22%2C%22iz%22%2C%22izme%C4%91u%22%2C%22ja%22%2C%22jako%22%2C%22jedan%22%2C%22jedna%22%2C%22jedno%22%2C%22je%22%2C%22jer%22%2C%22jezik%22%2C%22joj%22%2C%22jo%C5%A1%22%2C%22jutro%22%2C%22kao%22%2C%22kad%22%2C%22kako%22%2C%22kamo%22%2C%22kat%22%2C%22ka%C5%BEe%22%2C%22ki%C5%A1a%22%2C%22klima%22%2C%22knjiga%22%2C%22koga%22%2C%22koliko%22%2C%22kome%22%2C%22konj%22%2C%22kraj%22%2C%22kroz%22%2C%22kruh%22%2C%22ku%C4%87a%22%2C%22kupiti%22%2C%22kvadrat%22%2C%22lako%22%2C%22led%22%2C%22lijepo%22%2C%22ljeto%22%2C%22ljubav%22%2C%22ma%22%2C%22majka%22%2C%22malo%22%2C%22me%22%2C%22me%C4%91u%22%2C%22mi%22%2C%22mjesto%22%2C%22mlad%22%2C%22mnogo%22%2C%22mo%C4%87%22%2
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Anagram HR</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 600px;
+            margin: 1em auto;
+            padding: 1em;
+            background: #fff;
+            color: #000;
+        }
+        @media (prefers-color-scheme: dark) {
+            body { background: #121313; color: #eee; }
+            #output { background: #1e1e1e !important; color: #eee !important; }
+            #progressContainer { background: #333 !important; }
+            input { background: #222; color: #eee; border-color: #444; }
+        }
+        input, button {
+            font-size: 1.1em;
+            padding: .7em;
+            width: 100%;
+            margin: .5em 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        input { background: #fff; color: #000; }
+        button {
+            background: #0064c9;
+            color: #fff;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        button:disabled { opacity: .5; }
+        #output {
+            white-space: pre-wrap;
+            background: #f5f5f5;
+            color: #000;
+            padding: 1em;
+            border-radius: 8px;
+            margin-top: 1em;
+            max-height: 60vh;
+            overflow: auto;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        #progressContainer {
+            display: none;
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 1em 0;
+            overflow: hidden;
+        }
+        #progressBar {
+            width: 100%;
+            height: 100%;
+            background: #0064c9;
+            animation: progressAnim 2s infinite;
+        }
+        @keyframes progressAnim {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
+        }
+    </style>
+</head>
+<body>
+    <h2>🇭🇷 Anagrami imena i prezimena</h2>
+    <p style="text-align:center;opacity:.7">Autor: Damir Magdić</p>
+    <input id="ime" placeholder="Ime">
+    <input id="prezime" placeholder="Prezime">
+    <button id="btn1" onclick="trazi(1)">Anagram s jednom riječju</button>
+    <button id="btn2" onclick="trazi(2)">Anagrami s dvije riječi</button>
+    <button id="btn3" onclick="trazi(3)">Anagrami s tri riječi</button>
+    <button id="loadBtn" onclick="loadBigDict()" style="background:#333;font-weight:400">Učitaj prošireni rječnik (50k+ riječi)</button>
+    <div id="progressContainer"><div id="progressBar"></div></div>
+    <div id="output">Unesite ime i prezime pa kliknite na jedan od gumba.</div>
+
+    <script>
+        const smallDict = ["a","ali","ako","ba","bar","bih","bio","biti","bog","bol","brat","broj","budem","budi","cesta","cure","čaj","čekati","čovjek","će","ću","da","dan","dana","dati","dio","djece","djeca","dobro","doći","dok","dom","dosta","drugo","drugi","država","dugo","dva","dvije","evo","film","gaj","gdje","glas","glava","godina","grad","hrana","hrvatska","htjeti","i","iako","ili","imati","ime","inače","ipak","ispod","isto","iz","između","ja","jako","jedan","jedna","jedno","je","jer","jezik","joj","još","jutro","kao","kad","kako","kamo","kat","kaže","kiša","klima","knjiga","koga","koliko","kome","konj","kraj","kroz","kruh","kuća","kupiti","kvadrat","lako","led","lijepo","ljeto","ljubav","ma","majka","malo","me","među","mi","mjesto","mlad","mnogo","moć","mogu","mora","more","možda","mu","na","naj","nama","narod","nas","naš","ne","nego","neki","nema","ni","nije","nisu","noć","novi","novo","nje","njega","njih","njoj","no","nos","o","od","odmah","on","ona","one","oni","ono","opet","osim","otac","ovaj","ovo","pa","pet","pio","piti","po","pod","pogled","pokraj","pol","pola","policija","ponovo","posao","poslije","potreba","prvi","put","puta","rad","raditi","rat","reći","riječ","rijeka","ruka","s","sa","sad","sam","samo","sestra","se","sin","sinoć","slika","sloboda","slovo","smrt","snaga","soba","sport","srce","sredina","stol","stranka","student","sunce","sutra","svaki","sve","svijet","svjetlo","taj","tako","tamo","te","tema","temelj","ti","tjedan","to","treba","tri","tu","tvoj","u","ući","ulica","umjetnost","upravo","ustav","učiti","vani","velik","vi","vidjeti","vino","voda","vojnik","vrat","vrijeme","vrlo","vrt","zadnji","zar","zašto","zbog","zdravlje","zemlja","zimi","znati","žena","život"];
+        let wordSet = new Set(smallDict);
+
+        function getL(s) { return s.toLowerCase().replace(/\s/g,'').normalize('NFC'); }
+        function cnt(s) { const o={}; for(let c of s) o[c]=(o[c]||0)+1; return o; }
+        function can(w,a) { for(let c in w) if(!a[c]||a[c]<w[c]) return !1; return !0; }
+        function isEmpty(o) { return Object.keys(o).length===0; }
+        function subtract(a,b) { const r={...a}; for(let c in b) { r[c]-=b[c]; if(r[c]<=0) delete r[c]; } return r; }
+
+        async function loadBigDict() {
+            const btn = document.getElementById('loadBtn'), o = document.getElementById('output');
+            btn.disabled = !0;
+            o.innerHTML = '<p>Učitavam veliki rječnik...</p>';
+            try {
+                const r = await fetch('https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2016/hr/hr_50k.txt');
+                if(!r.ok) throw Error('HTTP '+r.status);
+                const t = await r.text(), ns = new Set(smallDict);
+                t.split(/\n/).forEach(l => {
+                    const w = l.split(/\s+/)[0];
+                    if(w && /^[a-zčćđšž]+$/i.test(w)) ns.add(w.toLowerCase());
+                });
+                wordSet = ns;
+                o.innerHTML = '<p>Učitano '+ns.size.toLocaleString('hr')+' riječi. Možete pretraživati.</p>';
+            } catch(e) {
+                o.innerHTML = '<p>Greška: '+e.message+'</p>';
+            } finally { btn.disabled = !1; }
+        }
+
+        function trazi(maxWords) {
+            const ime = document.getElementById('ime').value.trim(),
+                  prezime = document.getElementById('prezime').value.trim(),
+                  o = document.getElementById('output'),
+                  prog = document.getElementById('progressContainer'),
+                  btn1 = document.getElementById('btn1'),
+                  btn2 = document.getElementById('btn2'),
+                  btn3 = document.getElementById('btn3');
+            if(!ime || !prezime) { o.innerHTML = '<p>Unesite ime i prezime.</p>'; return; }
+            const s = getL(ime+prezime), target = cnt(s);
+            if(isEmpty(target)) { o.innerHTML = '<p>Nema slova.</p>'; return; }
+
+            btn1.disabled = btn2.disabled = btn3.disabled = !0;
+            prog.style.display = 'block';
+            o.innerHTML = '<p>Tražim anagrame...</p>';
+
+            const candidates = [];
+            for(let w of wordSet) {
+                if(w.length<2) continue;
+                const wc = cnt(w);
+                if(can(wc,target)) candidates.push({word:w, cnt:wc});
+            }
+
+            if(maxWords === 1) {
+                const single = candidates.filter(c => {
+                    if(Object.keys(c.cnt).length !== Object.keys(target).length) return !1;
+                    for(let k in target) if(c.cnt[k] !== target[k]) return !1;
+                    return !0;
+                }).map(c => c.word);
+                prog.style.display = 'none';
+                btn1.disabled = btn2.disabled = btn3.disabled = !1;
+                if(single.length) {
+                    o.innerHTML = '<h3>Anagrami s jednom riječju:</h3><ul>'+single.map(w=>'<li>'+w+'</li>').join('')+'</ul>';
+                } else {
+                    o.innerHTML = '<p>Nema prihvatljivih anagrama.</p>';
+                }
+                return;
+            }
+
+            const multi = [];
+            const stack = [];
+            for(let i=0; i<candidates.length; i++) {
+                const rem = subtract(target, candidates[i].cnt);
+                stack.push({idx:i, rem, path:[candidates[i].word], nextIdx:i+1});
+            }
+            const startTime = Date.now(), timeLimit = 5000;
+
+            function processChunk() {
+                let steps = 0;
+                while(stack.length && steps<1000 && multi.length<500) {
+                    const item = stack.pop();
+                    if(isEmpty(item.rem)) {
+                        if(item.path.length === maxWords) multi.push(item.path);
+                        steps++;
+                        continue;
+                    }
+                    if(item.path.length >= maxWords) continue;
+                    for(let i=item.nextIdx; i<candidates.length; i++) {
+                        const w = candidates[i];
+                        if(!can(w.cnt, item.rem)) continue;
+                        const newRem = subtract(item.rem, w.cnt);
+                        stack.push({idx:i, rem:newRem, path:item.path.concat(w.word), nextIdx:i+1});
+                        steps++;
+                        if(steps>=1000) break;
+                    }
+                }
+                if(stack.length && (Date.now()-startTime)<timeLimit && multi.length<500) {
+                    requestAnimationFrame(processChunk);
+                    return;
+                }
+                prog.style.display = 'none';
+                btn1.disabled = btn2.disabled = btn3.disabled = !1;
+                const label = maxWords===2 ? 'dvije' : 'tri';
+                if(multi.length) {
+                    o.innerHTML = '<h3>Anagrami s '+label+' riječi ('+multi.length+'):</h3><ul>'+
+                        multi.slice(0,100).map(a=>'<li>'+a.join(' + ')+'</li>').join('')+
+                        (multi.length>100 ? '<li>... i još '+(multi.length-100)+' kombinacija</li>' : '')+
+                        '</ul>';
+                } else {
+                    o.innerHTML = '<p>Nema prihvatljivih anagrama.</p>';
+                }
+            }
+            requestAnimationFrame(processChunk);
+        }
+    </script>
+</body>
+</html>
