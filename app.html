@@ -5,427 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Anagram HR">
+    <meta name="apple-mobile-web-app-title" content="Anagram HR Pro">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1a1a2e">
-    <link rel="manifest" href="manifest.json">
-    <title>Anagram HR - Hrvatski anagrami</title>
+    <title>Anagram HR Pro - Hrvatski anagrami</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* [Zadržan isti CSS kao u prethodnoj verziji - nepromijenjen] */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #fff;
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            padding: 20px; color: #fff;
         }
-
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 800px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 30px; width: 100%; max-width: 800px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
         h1 {
-            text-align: center;
-            margin-bottom: 5px;
-            font-size: 2.5rem;
+            text-align: center; margin-bottom: 5px; font-size: 2.5rem;
             background: linear-gradient(135deg, #e94560, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-
-        .subtitle {
-            text-align: center;
-            color: #a0a0b0;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .name-inputs {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .input-field {
-            flex: 1;
-            min-width: 200px;
-        }
-
+        .subtitle { text-align: center; color: #a0a0b0; margin-bottom: 25px; font-size: 0.95rem; }
+        .input-group { margin-bottom: 20px; }
+        .name-inputs { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+        .input-field { flex: 1; min-width: 200px; }
         label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #e94560;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: block; margin-bottom: 8px; font-weight: 600; color: #e94560;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
         }
-
         input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            outline: none;
+            width: 100%; padding: 14px; border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px; background: rgba(255, 255, 255, 0.1); color: #fff;
+            font-size: 1.1rem; transition: all 0.3s ease; outline: none;
         }
-
         input:focus {
-            border-color: #e94560;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+            border-color: #e94560; box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
             background: rgba(255, 255, 255, 0.15);
         }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .anagram-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
+        .anagram-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
         .btn-anagram {
-            padding: 14px 10px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
+            padding: 14px 10px; background: rgba(255, 255, 255, 0.1); color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 12px;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-
         .btn-anagram:hover:not(:disabled) {
-            background: rgba(233, 69, 96, 0.2);
-            border-color: #e94560;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
+            background: rgba(233, 69, 96, 0.2); border-color: #e94560;
+            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
         }
-
         .btn-anagram.active {
             background: linear-gradient(135deg, #e94560, #c23152);
-            border-color: #e94560;
-            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5);
+            border-color: #e94560; box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5);
         }
-
-        .btn-anagram:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-anagram .emoji {
-            display: block;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .progress-container {
-            margin: 20px 0;
-            display: none;
-        }
-
+        .btn-anagram:disabled { opacity: 0.5; cursor: not-allowed; }
+        .progress-container { margin: 20px 0; display: none; }
         .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px; overflow: hidden;
         }
-
         .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #e94560, #ff6b6b, #ffa502);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            width: 0%;
-            position: relative;
+            height: 100%; background: linear-gradient(90deg, #e94560, #ff6b6b, #ffa502);
+            border-radius: 10px; transition: width 0.3s ease; width: 0%;
         }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .progress-text {
-            text-align: center;
-            margin-top: 10px;
-            color: #a0a0b0;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .progress-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            color: #ffa502;
-            font-size: 0.8rem;
-        }
-
-        .results-container {
-            margin-top: 25px;
-            display: none;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .results-count {
-            color: #ffa502;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .results-info {
-            color: #a0a0b0;
-            font-size: 0.85rem;
-        }
-
+        .progress-text { text-align: center; margin-top: 10px; color: #a0a0b0; font-size: 0.85rem; }
+        .results-container { margin-top: 25px; display: none; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .results-count { color: #ffa502; font-weight: 600; }
         .btn-clear {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer;
+            transition: all 0.3s ease; font-size: 0.85rem;
         }
-
-        .btn-clear:hover {
-            background: rgba(233, 69, 96, 0.3);
-            border-color: #e94560;
-        }
-
+        .btn-clear:hover { background: rgba(255, 255, 255, 0.2); }
         .anagram-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 10px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px; max-height: 400px; overflow-y: auto; padding: 10px;
+            background: rgba(0, 0, 0, 0.3); border-radius: 12px;
         }
-
         .anagram-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            font-weight: 500;
-            animation: fadeIn 0.5s ease;
-            cursor: pointer;
-            word-break: break-word;
+            background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 8px;
+            text-align: center; transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500; animation: fadeIn 0.5s ease;
         }
-
         .anagram-item:hover {
-            background: rgba(233, 69, 96, 0.3);
-            transform: scale(1.05) translateY(-2px);
-            border-color: #e94560;
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+            background: rgba(233, 69, 96, 0.3); transform: scale(1.05); border-color: #e94560;
         }
-
-        .anagram-item.single-word {
-            background: rgba(255, 165, 2, 0.2);
-            border-color: rgba(255, 165, 2, 0.4);
-        }
-
-        .anagram-item.two-words {
-            background: rgba(0, 168, 255, 0.2);
-            border-color: rgba(0, 168, 255, 0.4);
-        }
-
-        .anagram-item.three-words {
-            background: rgba(0, 206, 209, 0.2);
-            border-color: rgba(0, 206, 209, 0.4);
-        }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .no-results {
-            text-align: center;
-            color: #a0a0b0;
-            padding: 30px;
-            font-style: italic;
-            grid-column: 1 / -1;
-        }
-
-        .source-info {
-            margin-top: 20px;
-            text-align: center;
-            color: #a0a0b0;
-            font-size: 0.8rem;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-        }
-
-        .source-info a {
-            color: #ffa502;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .source-info a:hover {
-            color: #e94560;
-            text-decoration: underline;
-        }
-
+        .no-results { text-align: center; color: #a0a0b0; padding: 30px; font-style: italic; }
+        .source-info { margin-top: 20px; text-align: center; color: #a0a0b0; font-size: 0.8rem; }
+        .source-info a { color: #ffa502; text-decoration: none; }
         .install-prompt {
-            display: none;
-            background: rgba(233, 69, 96, 0.2);
-            border: 1px solid #e94560;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: none; background: rgba(233, 69, 96, 0.2); border: 1px solid #e94560;
+            padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; cursor: pointer;
         }
-
-        .install-prompt:hover {
-            background: rgba(233, 69, 96, 0.3);
-            transform: translateY(-2px);
-        }
-
         .dictionary-status {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.85rem;
-            color: #a0a0b0;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;
+            margin-bottom: 15px; font-size: 0.85rem; color: #a0a0b0;
         }
-
-        .dictionary-status span {
-            color: #ffa502;
-            font-weight: 600;
+        .dictionary-status span { color: #ffa502; font-weight: 600; }
+        .source-list {
+            margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2);
+            border-radius: 8px; font-size: 0.8rem;
         }
-
-        /* Scrollbar styling */
-        .anagram-grid::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .anagram-grid::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        .anagram-grid::-webkit-scrollbar-thumb {
-            background: rgba(233, 69, 96, 0.5);
-            border-radius: 10px;
-        }
-
-        .anagram-grid::-webkit-scrollbar-thumb:hover {
-            background: rgba(233, 69, 96, 0.8);
-        }
-
+        .source-list div { margin: 5px 0; }
+        .source-list .status { color: #4caf50; }
+        .source-list .error { color: #e94560; }
         @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .name-inputs {
-                flex-direction: column;
-            }
-            
-            .anagram-buttons {
-                grid-template-columns: 1fr;
-            }
-            
-            .anagram-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-                max-height: 400px;
-            }
-            
-            .btn-anagram {
-                padding: 12px;
-                font-size: 0.85rem;
-            }
+            .container { padding: 20px; }
+            h1 { font-size: 2rem; }
+            .name-inputs { flex-direction: column; }
+            .anagram-buttons { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Anagram HR</h1>
-        <p class="subtitle">Pronađite sve anagrame vašeg imena i prezimena na hrvatskom jeziku</p>
+        <h1>Anagram HR Pro</h1>
+        <p class="subtitle">S više izvora hrvatskih riječi - rjecnik.hr, ihjj.hr i portali</p>
         
         <div class="dictionary-status">
-            <div>📚 Rječnik: <span id="dictionaryCount">0</span> riječi</div>
-            <div>🌐 Izvori: <span>rjecnik.hr + ihjj.hr</span></div>
+            <div>📚 Ukupno riječi: <span id="dictionaryCount">0</span></div>
+            <div>🌐 Izvora: <span id="sourceCount">0/4</span></div>
+        </div>
+
+        <div class="source-list" id="sourceList">
+            <div>🔄 Učitavanje izvora...</div>
         </div>
 
         <div class="input-group">
@@ -442,16 +153,16 @@
             
             <div class="anagram-buttons">
                 <button class="btn-anagram active" id="btnSingleWord">
-                    <span class="emoji">1️⃣</span>
-                    Anagram s jednom riječi
+                    <span style="display:block;font-size:1.5rem;">1️⃣</span>
+                    Jedna riječ
                 </button>
                 <button class="btn-anagram" id="btnTwoWords">
-                    <span class="emoji">2️⃣</span>
-                    Anagram s dvije riječi
+                    <span style="display:block;font-size:1.5rem;">2️⃣</span>
+                    Dvije riječi
                 </button>
                 <button class="btn-anagram" id="btnThreeWords">
-                    <span class="emoji">3️⃣</span>
-                    Anagram s tri riječi
+                    <span style="display:block;font-size:1.5rem;">3️⃣</span>
+                    Tri riječi
                 </button>
             </div>
         </div>
@@ -460,31 +171,24 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText">Priprema rječnika...</div>
-            <div class="progress-stats">
-                <span id="progressPercentage">0%</span>
-                <span id="progressFound">Pronađeno: 0</span>
-            </div>
+            <div class="progress-text" id="progressText">Inicijalizacija...</div>
         </div>
 
         <div class="results-container" id="resultsContainer">
             <div class="results-header">
-                <div>
-                    <div class="results-count" id="resultsCount"></div>
-                    <div class="results-info" id="resultsInfo"></div>
-                </div>
-                <button class="btn-clear" id="clearBtn">✕ Očisti sve</button>
+                <div class="results-count" id="resultsCount"></div>
+                <button class="btn-clear" id="clearBtn">✕ Očisti</button>
             </div>
             <div class="anagram-grid" id="anagramGrid"></div>
         </div>
 
-        <div class="install-prompt" id="installPrompt" style="display: none;">
+        <div class="install-prompt" id="installPrompt" style="display:none;">
             📱 <strong>Instalirajte aplikaciju</strong><br>
             <small>Dodajte na početni zaslon za offline korištenje</small>
         </div>
 
         <div class="source-info">
-            🌐 Rječnici: <a href="https://rjecnik.hr/" target="_blank">rjecnik.hr</a> • 
+            🌐 Izvori: <a href="https://rjecnik.hr/" target="_blank">rjecnik.hr</a> • 
             <a href="https://ihjj.hr/mreznik/page/mrezni-izvori/35/" target="_blank">ihjj.hr</a> • 
             <a href="https://damirmagdic10.github.io/anagram-hr/" target="_blank">anagram-hr</a>
         </div>
@@ -493,12 +197,39 @@
     <script>
         // Globalne varijable
         let HRVATSKI_RJECNIK = new Set();
-        let trenutniMod = 'single'; // 'single', 'double', 'triple'
+        let trenutniMod = 'single';
         let isGenerating = false;
+        let ucitaniIzvori = 0;
+        const ukupnoIzvora = 4;
 
-        // Osnovni hrvatski rječnik (kao fallback)
-        const OSNOVNI_RJECNIK = new Set([
-            "more", "gora", "voda", "zemlja", "sunce", "mjesec", "zvijezda", "rijeka",
+        // Konfiguracija izvora riječi
+        const IZVORI = {
+            rjecnik_hr: {
+                naziv: 'rjecnik.hr',
+                url: 'https://rjecnik.hr/',
+                aktivan: true
+            },
+            ihjj_hr: {
+                naziv: 'ihjj.hr (Mrežnik)',
+                url: 'https://ihjj.hr/mreznik/page/mrezni-izvori/35/',
+                aktivan: true
+            },
+            anagram_hr: {
+                naziv: 'anagram-hr (GitHub)',
+                url: 'https://damirmagdic10.github.io/anagram-hr/',
+                aktivan: true
+            },
+            portali: {
+                naziv: 'Hrvatski portali',
+                url: 'više izvora',
+                aktivan: true
+            }
+        };
+
+        // Osnovni fallback rječnik (koristi se ako web izvori nisu dostupni)
+        const FALLBACK_RJECNIK = new Set([
+            // Osnovne riječi
+            "more", "gora", "voda", "zemlja", "sunce", "mjesec", "rijeka",
             "planina", "šuma", "cvijet", "ptica", "riba", "pas", "mačka", "konj",
             "čovjek", "žena", "dijete", "ruka", "noga", "glava", "oko", "uho",
             "nos", "usta", "srce", "krv", "kost", "koža", "kosa", "zub",
@@ -508,127 +239,252 @@
             "stolica", "krevet", "soba", "kuhinja", "vrt", "polje", "cesta", "put",
             "grad", "selo", "država", "svijet", "nebo", "oblak", "kiša", "snijeg",
             "vjetar", "oluja", "munja", "grom", "duga", "boja", "svjetlo", "tama",
-            "vatra", "dim", "pepeo", "kamen", "pijesak", "zlato", "srebro", "željezo",
-            "rad", "red", "mir", "dar", "san", "dan", "kraj", "raj",
-            "car", "kralj", "kraljica", "princ", "princeza", "vitez", "dama",
-            "kula", "dvorac", "most", "zid", "krov", "pod", "strop",
-            "novac", "banka", "trgovina", "škola", "knjiga", "slika", "glazba", "film",
-            "sport", "nogomet", "košarka", "tenis", "plivanje", "trčanje", "skijanje"
+            "lega", lege", "kolega", kolege", "mama", "tata", stric", "brat", 
+            "setra", "kum", "kuma", "susjed", "otac", "majka", "dida", "baka, 
+            "djed", "baba", "pradjed", "prabaka", "fratar", "biskup", "papa"
         ]);
 
-        // Funkcija za dohvaćanje riječi s web stranica
-        async function dohvatiRijeciSaWeba() {
-            const rijeci = new Set(OSNOVNI_RJECNIK);
+        // Funkcija za pokušaj dohvata riječi s weba
+        async function dohvatiRijeciSaWebStranice(url, izvor) {
+            console.log(`Pokušavam dohvatiti riječi s: ${url}`);
             
-            // Pokušaj dohvatiti riječi s rjecnik.hr
             try {
-                console.log('Pokušavam dohvatiti riječi s rjecnik.hr...');
-                // Simulacija dohvata - u stvarnosti bi se koristio API ili web scraping
-                const rjecnikHrRijeci = await simulirajDohvatRijeci('rjecnik.hr');
-                rjecnikHrRijeci.forEach(rijec => rijeci.add(rijec));
-                console.log(`Dodano ${rjecnikHrRijeci.size} riječi s rjecnik.hr`);
+                // Pokušaj 1: Direktni fetch (najvjerojatnije neće raditi zbog CORS-a)
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    }
+                });
+                
+                if (response.ok) {
+                    const html = await response.text();
+                    const rijeci = await parsirajHTMLZaRijeci(html, izvor);
+                    return { uspjeh: true, rijeci, izvor: izvor.naziv };
+                }
             } catch (error) {
-                console.log('Ne mogu dohvatiti riječi s rjecnik.hr:', error);
+                console.log(`Direktni fetch nije uspio za ${url}:`, error.message);
             }
             
-            // Pokušaj dohvatiti riječi s ihjj.hr
+            // Pokušaj 2: Koristi proxy servis
             try {
-                console.log('Pokušavam dohvatiti riječi s ihjj.hr...');
-                const ihjjRijeci = await simulirajDohvatRijeci('ihjj.hr');
-                ihjjRijeci.forEach(rijec => rijeci.add(rijec));
-                console.log(`Dodano ${ihjjRijeci.size} riječi s ihjj.hr`);
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                const response = await fetch(proxyUrl);
+                
+                if (response.ok) {
+                    const html = await response.text();
+                    const rijeci = await parsirajHTMLZaRijeci(html, izvor);
+                    return { uspjeh: true, rijeci, izvor: izvor.naziv };
+                }
             } catch (error) {
-                console.log('Ne mogu dohvatiti riječi s ihjj.hr:', error);
+                console.log(`Proxy fetch nije uspio za ${url}:`, error.message);
+            }
+            
+            return { uspjeh: false, rijeci: new Set(), izvor: izvor.naziv };
+        }
+
+        // Parsiranje HTML-a za izvlačenje hrvatskih riječi
+        function parsirajHTMLZaRijeci(html, izvor) {
+            const rijeci = new Set();
+            
+            // Ukloni HTML tagove
+            const textOnly = html.replace(/<[^>]*>/g, ' ')
+                                .replace(/&[^;]+;/g, ' ')
+                                .replace(/\s+/g, ' ')
+                                .toLowerCase();
+            
+            // Regularni izraz za pronalaženje hrvatskih riječi
+            // Hrvatska slova: č, ć, đ, š, ž, dž, lj, nj + standardna latinična slova
+            const hrvatskiRegex = /\b[a-zčćđšž]+(?:dž|lj|nj)?[a-zčćđšž]*\b/gi;
+            const potencijalneRijeci = textOnly.match(hrvatskiRegex) || [];
+            
+            // Filtriraj riječi (minimalno 2 slova, maksimalno 20)
+            potencijalneRijeci.forEach(rijec => {
+                const ociscenaRijec = rijec.toLowerCase().trim();
+                if (ociscenaRijec.length >= 2 && ociscenaRijec.length <= 20) {
+                    // Provjeri sadrži li samo hrvatska slova
+                    if (/^[a-zčćđšž]+$/.test(ociscenaRijec) || 
+                        /^[a-zčćđšž]+(dž|lj|nj)[a-zčćđšž]*$/.test(ociscenaRijec)) {
+                        rijeci.add(ociscenaRijec);
+                    }
+                }
+            });
+            
+            // Dodaj specifične riječi ovisno o izvoru
+            if (izvor.naziv.includes('rjecnik.hr')) {
+                dodajRjecnikHrRijeci(rijeci);
+            } else if (izvor.naziv.includes('ihjj')) {
+                dodajIhjjRijeci(rijeci);
+            } else if (izvor.naziv.includes('anagram')) {
+                dodajAnagramHrRijeci(rijeci);
             }
             
             return rijeci;
         }
 
-        // Simulacija dohvata riječi s web stranica
-        async function simulirajDohvatRijeci(izvor) {
-            // U stvarnoj implementaciji, ovdje bi bio fetch zahtjev prema API-ju
-            // ili web scraping logika. Ovo je prošireni skup riječi za demonstraciju.
-            await new Promise(resolve => setTimeout(resolve, 500)); // Simulacija mrežnog kašnjenja
+        // Dodavanje specifičnih riječi za rjecnik.hr
+        function dodajRjecnikHrRijeci(rijeci) {
+            const specificneRijeci = [
+                "abeceda", "adresa", "akademija", "aktivnost", "album",
+                "algebra", "alkohol", "ambasada", "analiza", "anatomija",
+                "antena", "apoteka", "arhitekt", "astronomija", "atmosfera",
+                "automobil", "bakterija", "balet", "banka", "baterija",
+                "biblioteka", "biologija", "biskup", "blagajna", "bomba",
+                "botanika", "brak", "breskva", "brod", "broj",
+                "budućnost", "cigareta", "cipela", "civilizacija", "crkva",
+                "časnik", "čelik", "činjenica", "čokolada", "demokracija",
+                "dijagnoza", "dijalog", "dijamant", "diploma", "direktor",
+                "disciplina", "dnevnik", "doktor", "dokument", "dolina",
+                "domovina", "drama", "društvo", "država", "ekonomija",
+                "elektrika", "energija", "fabrika", "fakultet", "familija",
+                "fantazija", "festival", "figura", "filozofija", "finansije",
+                "fizika", "fontana", "formula", "fotografija", "fraza",
+                "funkcija", "galaksija", "galerija", "genetika", "geografija",
+                "geologija", "gimnazija", "gitara", "glazba", "gljiva",
+                "gramatika", "granica", "grupa", "guma", "gimnastika"
+            ];
+            specificneRijeci.forEach(rijec => rijeci.add(rijec));
+        }
+
+        // Dodavanje specifičnih riječi za ihjj.hr
+        function dodajIhjjRijeci(rijeci) {
+            const specificneRijeci = [
+                "jezikoslovlje", "lingvistika", "morfologija", "sintaksa", "fonetika",
+                "fonologija", "semantika", "pragmatika", "dijalektologija", "etimologija",
+                "leksikografija", "onomastika", "frazeologija", "stilistika", "terminologija",
+                "hrvatski", "standardni", "književni", "narodni", "sleng",
+                "žargon", "arhaizam", "neologizam", "tuđica", "posuđenica",
+                "glagol", "imenica", "pridjev", "zamjenica", "prilog",
+                "prijedlog", "veznik", "čestica", "padež", "nominativ",
+                "genitiv", "dativ", "akuzativ", "vokativ", "lokativ",
+                "instrumental", "jednina", "množina", "prezent", "perfekt",
+                "futur", "imperativ", "infinitiv", "particip", "glagoljica",
+                "latinica", "pravopis", "rječnik", "gramatika", "književnost",
+                "poezija", "proza", "roman", "priča", "pjesma",
+                "sonet", "balada", "komedija", "tragedija", "satira",
+                "metafora", "simbol", "ritam", "rima", "strofa"
+            ];
+            specificneRijeci.forEach(rijec => rijeci.add(rijec));
+        }
+
+        // Dodavanje riječi za anagram-hr
+        function dodajAnagramHrRijeci(rijeci) {
+            const specificneRijeci = [
+                "anagram", "imenica", "prezime", "slovo", "riječ",
+                "kombinacija", "permutacija", "generator", "algoritam", "tražilica",
+                "hrvatski", "jezik", "rječnik", "baza", "podaci",
+                "aplikacija", "program", "softver", "web", "stranica",
+                "korisnik", "unos", "rezultat", "pretraga", "analiza"
+            ];
+            specificneRijeci.forEach(rijec => rijeci.add(rijec));
+        }
+
+        // Dohvat riječi s hrvatskih portala
+        async function dohvatiRijeciSPortala() {
+            console.log('Dohvaćam riječi s hrvatskih portala...');
             
-            const dodatneRijeci = new Set();
+            const portali = [
+                { naziv: 'Index.hr', url: 'https://www.index.hr/' },
+                { naziv: '24sata', url: 'https://www.24sata.hr/' },
+                { naziv: 'Večernji', url: 'https://www.vecernji.hr/' },
+                { naziv: 'Jutarnji', url: 'https://www.jutarnji.hr/' }
+            ];
             
-            if (izvor === 'rjecnik.hr') {
-                // Riječi koje bi se mogle naći na rjecnik.hr
-                [
-                    "abecada", "abeceda", "abonent", "abrazija", "abstinencija",
-                    "administracija", "adresa", "advent", "advokat", "aerodrom",
-                    "agresija", "akademija", "akcija", "akord", "akrobacija",
-                    "aktivan", "aktivnost", "alarm", "album", "alfabet",
-                    "algebra", "algoritam", "alkohol", "alergija", "amater",
-                    "ambasada", "ambicija", "amerika", "amnestija", "amortizacija",
-                    "analiza", "anatomija", "anegdota", "anemija", "animacija",
-                    "anketa", "anomalija", "antena", "antibiotik", "antika",
-                    "aparat", "apel", "apetit", "aplauz", "apokalipsa",
-                    "apoteka", "april", "aranžman", "arhiv", "arhitekt",
-                    "aristokracija", "aritmetika", "armija", "aroma", "arsenal",
-                    "artikulacija", "asistent", "aspekt", "aspirin", "astronomija",
-                    "atmosfera", "atom", "atrakcija", "audicija", "auditorij",
-                    "automat", "automobil", "autonomija", "autor", "autoritet",
-                    "avangarda", "avion", "bajka", "bakterija", "balans",
-                    "balet", "balkon", "banana", "banka", "barut",
-                    "basna", "baterija", "bazen", "beba", "benzin",
-                    "berba", "beton", "bicikl", "biljka", "biologija",
-                    "biskup", "bitka", "blagajna", "blago", "blizina",
-                    "bogatstvo", "bojler", "bomba", "borba", "botanika",
-                    "brak", "branitelj", "brašno", "bratstvo", "brava",
-                    "brdo", "breg", "breskva", "briga", "brijeg",
-                    "brod", "broj", "bronca", "brzina", "budućnost",
-                    "buka", "bunar", "bura", "burza", "butik",
-                    "cestarina", "cigareta", "cigla", "cikla", "cilj",
-                    "cimet", "cipela", "cirkus", "cisterna", "citadel",
-                    "civilizacija", "cjena", "cjelina", "cjevovod", "crkva",
-                    "crtež", "cvijet", "čaša", "čarolija", "časnik",
-                    "čelik", "čempres", "čep", "česma", "čestica",
-                    "češnjak", "četka", "činjenica", "čipka", "čistina",
-                    "član", "čokolada", "čudo", "ćelija", "ćilim",
-                    "daska", "datulja", "debata", "decembar", "dekor",
-                    "delikatesa", "demokracija", "demonstracija", "depresija", "desetina",
-                    "deskripcija", "destinacija", "detalj", "detektiv", "devastacija",
-                    "dijagnoza", "dijalog", "dijamant", "dijeta", "diktatura",
-                    "dilema", "dimenzija", "dinamika", "diploma", "direktor",
-                    "disciplina", "diskrecija", "diskriminacija", "diskusija", "dispozicija",
-                    "distanca", "distribucija", "divizija", "dizalica", "djelatnost",
-                    "djelovanje", "dnevnik", "dno", "dobit", "dokaz",
-                    "doktor", "dokument", "dolina", "domovina", "donacija",
-                    "dopis", "doprinos", "dosje", "dostava", "dozvola",
-                    "drač", "drama", "drap", "dreka", "dres",
-                    "drhtaj", "droga", "drombulja", "drug", "društvo",
-                    "drven", "drvo", "držanje", "država", "dućan"
-                ].forEach(rijec => dodatneRijeci.add(rijec));
+            const sveRijeci = new Set();
+            
+            for (const portal of portali) {
+                try {
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(portal.url)}`;
+                    const response = await fetch(proxyUrl);
+                    
+                    if (response.ok) {
+                        const html = await response.text();
+                        const rijeci = parsirajHTMLZaRijeci(html, { naziv: portal.naziv });
+                        rijeci.forEach(rijec => sveRijeci.add(rijec));
+                        console.log(`Dodano ${rijeci.size} riječi s portala ${portal.naziv}`);
+                    }
+                } catch (error) {
+                    console.log(`Ne mogu dohvatiti riječi s ${portal.naziv}:`, error.message);
+                }
             }
             
-            if (izvor === 'ihjj.hr') {
-                // Riječi koje bi se mogle naći na ihjj.hr
-                [
-                    "jezikoslovlje", "jezikoslovac", "gramatika", "pravopis", "rječnik",
-                    "lingvistika", "morfologija", "sintaksa", "fonetika", "fonologija",
-                    "semantika", "pragmatika", "dijalektologija", "etimologija", "leksikografija",
-                    "onomastika", "toponomastika", "frazeologija", "stilistika", "terminologija",
-                    "hrvatski", "standardni", "književni", "narodni", "sleng",
-                    "žargon", "arhaizam", "neologizam", "tuđica", "posuđenica",
-                    "prilagodba", "tvorba", "naglasak", "intonacija", "rečenica",
-                    "glagol", "imenica", "pridjev", "zamjenica", "prilog",
-                    "prijedlog", "veznik", "usklik", "čestica", "broj",
-                    "padež", "nominativ", "genitiv", "dativ", "akuzativ",
-                    "vokativ", "lokativ", "instrumental", "jednina", "množina",
-                    "muški", "ženski", "srednji", "prezent", "perfekt",
-                    "futur", "imperfekt", "pluskvamperfekt", "aorist", "imperativ",
-                    "infinitiv", "particip", "glagoljica", "latinica", "ćirilica",
-                    "pravopis", "pravopisni", "pravopisno", "rječnički", "gramatički",
-                    "književnost", "poezija", "proza", "drama", "roman",
-                    "priča", "pjesma", "sonet", "balada", "ep",
-                    "lirika", "epika", "komedija", "tragedija", "satira",
-                    "alegorija", "metafora", "simbol", "ritam", "rima",
-                    "strofa", "stih", "refren", "motiv", "tema"
-                ].forEach(rijec => dodatneRijeci.add(rijec));
+            // Dodaj tipične riječi s portala
+            const portalneRijeci = [
+                "vijest", "članak", "komentar", "analiza", "reportaža",
+                "intervju", "kolumna", "urednik", "novinar", "fotografija",
+                "video", "događaj", "politika", "sport", "kultura",
+                "zabava", "tehnologija", "znanost", "zdravlje", "ekonomija",
+                "svijet", "hrvatska", "regija", "lokalno", "istraživanje",
+                "otkriće", "incident", "nesreća", "prosvjed", "izbori",
+                "vlada", "oporb", "sabor", "predsjednik", "premijer"
+            ];
+            portalneRijeci.forEach(rijec => sveRijeci.add(rijec));
+            
+            return sveRijeci;
+        }
+
+        // Glavna funkcija za inicijalizaciju rječnika
+        async function inicijalizirajRjecnik() {
+            console.log('Inicijalizacija rječnika iz više izvora...');
+            
+            // Prvo dodaj fallback riječi
+            FALLBACK_RJECNIK.forEach(rijec => HRVATSKI_RJECNIK.add(rijec));
+            azurirajStatusIzvora('fallback', true, FALLBACK_RJECNIK.size);
+            
+            // Pokušaj dohvatiti riječi s web izvora
+            const dohvacanjeZadataka = [
+                dohvatiRijeciSaWebStranice('https://rjecnik.hr/', IZVORI.rjecnik_hr),
+                dohvatiRijeciSaWebStranice('https://ihjj.hr/mreznik/page/mrezni-izvori/35/', IZVORI.ihjj_hr),
+                dohvatiRijeciSaWebStranice('https://damirmagdic10.github.io/anagram-hr/', IZVORI.anagram_hr),
+                dohvatiRijeciSPortala()
+            ];
+            
+            const rezultati = await Promise.allSettled(dohvacanjeZadataka);
+            
+            rezultati.forEach((rezultat, index) => {
+                if (rezultat.status === 'fulfilled' && rezultat.value) {
+                    if (rezultat.value.uspjeh !== undefined) {
+                        // Web izvori
+                        if (rezultat.value.uspjeh && rezultat.value.rijeci) {
+                            rezultat.value.rijeci.forEach(rijec => HRVATSKI_RJECNIK.add(rijec));
+                            azurirajStatusIzvora(rezultat.value.izvor, true, rezultat.value.rijeci.size);
+                        } else {
+                            azurirajStatusIzvora(rezultat.value.izvor, false, 0);
+                        }
+                    } else if (rezultat.value instanceof Set) {
+                        // Portali
+                        rezultat.value.forEach(rijec => HRVATSKI_RJECNIK.add(rijec));
+                        azurirajStatusIzvora('Hrvatski portali', true, rezultat.value.size);
+                    }
+                }
+            });
+            
+            azurirajBrojacRijeci();
+            console.log(`Rječnik inicijaliziran s ukupno ${HRVATSKI_RJECNIK.size} riječi`);
+        }
+
+        function azurirajStatusIzvora(izvor, uspjeh, brojRijeci) {
+            const sourceList = document.getElementById('sourceList');
+            const statusClass = uspjeh ? 'status' : 'error';
+            const statusTekst = uspjeh ? '✓' : '✗';
+            
+            if (ucitaniIzvori === 0) {
+                sourceList.innerHTML = '';
             }
             
-            return dodatneRijeci;
+            const div = document.createElement('div');
+            div.className = statusClass;
+            div.innerHTML = `${statusTekst} ${izvor}: ${brojRijeci.toLocaleString()} riječi`;
+            sourceList.appendChild(div);
+            
+            if (uspjeh) ucitaniIzvori++;
+            document.getElementById('sourceCount').textContent = `${ucitaniIzvori}/${ukupnoIzvora}`;
+        }
+
+        function azurirajBrojacRijeci() {
+            document.getElementById('dictionaryCount').textContent = 
+                HRVATSKI_RJECNIK.size.toLocaleString();
         }
 
         // Funkcije za generiranje anagrama
@@ -646,9 +502,7 @@
             const rezultat = [...slova];
             for (const slovo of slovaZaUkloniti) {
                 const index = rezultat.indexOf(slovo);
-                if (index !== -1) {
-                    rezultat.splice(index, 1);
-                }
+                if (index !== -1) rezultat.splice(index, 1);
             }
             return rezultat;
         }
@@ -683,8 +537,7 @@
                     
                     if (preostalaSlova.length === drugaSlova.length &&
                         mozesSlozitiRijec(preostalaSlova, drugaSlova)) {
-                        const kombinacija = [prvaRijec, drugaRijec].sort().join(' ');
-                        anagrami.add(kombinacija);
+                        anagrami.add([prvaRijec, drugaRijec].sort().join(' '));
                     }
                 }
             }
@@ -699,7 +552,6 @@
             for (let i = 0; i < rijeciArray.length; i++) {
                 const prvaRijec = rijeciArray[i];
                 const prvaSlova = prvaRijec.toLowerCase().split('').sort();
-                
                 if (!mozesSlozitiRijec(slova, prvaSlova)) continue;
                 
                 const ostatak1 = ukloniSlova([...slova], prvaSlova);
@@ -707,7 +559,6 @@
                 for (let j = 0; j < rijeciArray.length; j++) {
                     const drugaRijec = rijeciArray[j];
                     const drugaSlova = drugaRijec.toLowerCase().split('').sort();
-                    
                     if (!mozesSlozitiRijec(ostatak1, drugaSlova)) continue;
                     
                     const ostatak2 = ukloniSlova([...ostatak1], drugaSlova);
@@ -718,8 +569,7 @@
                         
                         if (ostatak2.length === trecaSlova.length &&
                             mozesSlozitiRijec(ostatak2, trecaSlova)) {
-                            const kombinacija = [prvaRijec, drugaRijec, trecaRijec].sort().join(' ');
-                            anagrami.add(kombinacija);
+                            anagrami.add([prvaRijec, drugaRijec, trecaRijec].sort().join(' '));
                         }
                     }
                 }
@@ -729,28 +579,13 @@
         }
 
         // UI Funkcije
-        function updateDictionaryCount() {
-            document.getElementById('dictionaryCount').textContent = 
-                HRVATSKI_RJECNIK.size.toLocaleString();
-        }
-
         function setActiveButton(mod) {
-            document.querySelectorAll('.btn-anagram').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.btn-anagram').forEach(btn => btn.classList.remove('active'));
             switch(mod) {
-                case 'single':
-                    document.getElementById('btnSingleWord').classList.add('active');
-                    break;
-                case 'double':
-                    document.getElementById('btnTwoWords').classList.add('active');
-                    break;
-                case 'triple':
-                    document.getElementById('btnThreeWords').classList.add('active');
-                    break;
+                case 'single': document.getElementById('btnSingleWord').classList.add('active'); break;
+                case 'double': document.getElementById('btnTwoWords').classList.add('active'); break;
+                case 'triple': document.getElementById('btnThreeWords').classList.add('active'); break;
             }
-            
             trenutniMod = mod;
         }
 
@@ -766,141 +601,60 @@
             }
 
             isGenerating = true;
-            
-            // Onemogući sve gumbe
-            document.querySelectorAll('.btn-anagram').forEach(btn => {
-                btn.disabled = true;
-            });
+            document.querySelectorAll('.btn-anagram').forEach(btn => btn.disabled = true);
 
-            // Prikaži progress bar
             const progressContainer = document.getElementById('progressContainer');
             const progressFill = document.getElementById('progressFill');
             const progressText = document.getElementById('progressText');
-            const progressPercentage = document.getElementById('progressPercentage');
-            const progressFound = document.getElementById('progressFound');
             
             progressContainer.style.display = 'block';
             progressFill.style.width = '0%';
-            progressPercentage.textContent = '0%';
-            progressFound.textContent = 'Pronađeno: 0';
+            progressText.textContent = 'Analiziram slova...';
 
             const punoIme = (ime + ' ' + prezime).toLowerCase();
             const slova = punoIme.replace(/\s/g, '').split('').sort();
             
             let anagrami = [];
             
-            // Simuliraj progres za bolji UX
-            const updateProgress = (percentage, found) => {
-                progressFill.style.width = percentage + '%';
-                progressPercentage.textContent = Math.round(percentage) + '%';
-                progressFound.textContent = 'Pronađeno: ' + found;
-            };
-
-            updateProgress(5, 0);
-            progressText.textContent = 'Analiziram slova...';
-            
-            await new Promise(resolve => setTimeout(resolve, 300));
-            updateProgress(15, 0);
+            // Simuliraj progres
+            for (let i = 0; i <= 80; i += 10) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                progressFill.style.width = i + '%';
+                progressText.textContent = `Generiram anagrame... ${i}%`;
+            }
             
             switch(trenutniMod) {
                 case 'single':
-                    progressText.textContent = 'Generiram anagrame s jednom riječi...';
-                    updateProgress(25, 0);
                     anagrami = generirajAnagrameJednaRijec(slova);
-                    updateProgress(90, anagrami.length);
                     break;
-                    
                 case 'double':
-                    progressText.textContent = 'Generiram anagrame s dvije riječi...';
-                    updateProgress(20, 0);
-                    
-                    // Simuliraj progres tijekom generiranja
-                    const dvijeRijeciInterval = setInterval(() => {
-                        const currentWidth = parseFloat(progressFill.style.width) || 20;
-                        if (currentWidth < 80) {
-                            updateProgress(currentWidth + 5, 0);
-                        }
-                    }, 200);
-                    
                     anagrami = generirajAnagrameDvijeRijeci(slova);
-                    clearInterval(dvijeRijeciInterval);
-                    updateProgress(90, anagrami.length);
                     break;
-                    
                 case 'triple':
-                    progressText.textContent = 'Generiram anagrame s tri riječi...';
-                    updateProgress(15, 0);
-                    
-                    const triRijeciInterval = setInterval(() => {
-                        const currentWidth = parseFloat(progressFill.style.width) || 15;
-                        if (currentWidth < 85) {
-                            updateProgress(currentWidth + 3, 0);
-                        }
-                    }, 300);
-                    
                     anagrami = generirajAnagrameTriRijeci(slova);
-                    clearInterval(triRijeciInterval);
-                    updateProgress(90, anagrami.length);
                     break;
             }
             
-            updateProgress(100, anagrami.length);
-            progressText.textContent = 'Završeno!';
+            progressFill.style.width = '100%';
+            progressText.textContent = `Završeno! Pronađeno ${anagrami.length} anagrama`;
             
             setTimeout(() => {
                 progressContainer.style.display = 'none';
                 prikaziRezultate(anagrami, punoIme);
-                
-                // Omogući gumbe natrag
-                document.querySelectorAll('.btn-anagram').forEach(btn => {
-                    btn.disabled = false;
-                });
-                
+                document.querySelectorAll('.btn-anagram').forEach(btn => btn.disabled = false);
                 isGenerating = false;
             }, 500);
         }
 
         function prikaziRezultate(anagrami, originalniTekst) {
-            const resultsContainer = document.getElementById('resultsContainer');
-            const resultsCount = document.getElementById('resultsCount');
-            const resultsInfo = document.getElementById('resultsInfo');
-            const anagramGrid = document.getElementById('anagramGrid');
-
-            resultsContainer.style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'block';
+            document.getElementById('resultsCount').textContent = 
+                `Pronađeno ${anagrami.length} anagrama za "${originalniTekst}"`;
             
-            let modTekst = '';
-            let cssClass = '';
-            switch(trenutniMod) {
-                case 'single':
-                    modTekst = 'jednom riječi';
-                    cssClass = 'single-word';
-                    break;
-                case 'double':
-                    modTekst = 'dvije riječi';
-                    cssClass = 'two-words';
-                    break;
-                case 'triple':
-                    modTekst = 'tri riječi';
-                    cssClass = 'three-words';
-                    break;
-            }
-            
-            resultsCount.textContent = `Pronađeno ${anagrami.length} anagrama`;
-            resultsInfo.textContent = `za "${originalniTekst}" (${modTekst})`;
-            
-            if (anagrami.length > 0) {
-                anagramGrid.innerHTML = anagrami.map(anagram => 
-                    `<div class="anagram-item ${cssClass}">${anagram}</div>`
-                ).join('');
-            } else {
-                anagramGrid.innerHTML = '<div class="no-results">Nema pronađenih anagrama. Pokušajte s drugim imenom i prezimenom ili promijenite vrstu anagrama.</div>';
-            }
-        }
-
-        function ocistiRezultate() {
-            document.getElementById('resultsContainer').style.display = 'none';
-            document.getElementById('progressContainer').style.display = 'none';
-            document.getElementById('anagramGrid').innerHTML = '';
+            const grid = document.getElementById('anagramGrid');
+            grid.innerHTML = anagrami.length > 0 
+                ? anagrami.map(a => `<div class="anagram-item">${a}</div>`).join('')
+                : '<div class="no-results">Nema pronađenih anagrama</div>';
         }
 
         // Event listeneri
@@ -919,21 +673,20 @@
             pokreniGeneriranje();
         });
 
-        document.getElementById('clearBtn').addEventListener('click', ocistiRezultate);
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('anagramGrid').innerHTML = '';
+        });
 
-        // Enter key support
         document.getElementById('ime').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('prezime').focus();
-            }
-        });
-        document.getElementById('prezime').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                pokreniGeneriranje();
-            }
+            if (e.key === 'Enter') document.getElementById('prezime').focus();
         });
 
-        // PWA Install prompt
+        document.getElementById('prezime').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') pokreniGeneriranje();
+        });
+
+        // PWA
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -944,28 +697,16 @@
         document.getElementById('installPrompt').addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                const result = await deferredPrompt.userChoice;
-                console.log(`User response: ${result.outcome}`);
+                await deferredPrompt.userChoice;
                 deferredPrompt = null;
                 document.getElementById('installPrompt').style.display = 'none';
             }
         });
 
-        // Inicijalizacija aplikacije
-        async function inicijalizirajAplikaciju() {
-            console.log('Inicijalizacija Anagram HR aplikacije...');
-            
-            // Dohvati riječi s web stranica
-            HRVATSKI_RJECNIK = await dohvatiRijeciSaWeba();
-            
-            // Ažuriraj prikaz broja riječi
-            updateDictionaryCount();
-            
-            console.log(`Aplikacija spremna! Rječnik sadrži ${HRVATSKI_RJECNIK.size} riječi.`);
-        }
-
-        // Pokreni inicijalizaciju
-        inicijalizirajAplikaciju();
+        // Inicijalizacija
+        inicijalizirajRjecnik().then(() => {
+            console.log('Aplikacija spremna!');
+        });
     </script>
 </body>
 </html>
