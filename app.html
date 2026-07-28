@@ -2,1378 +2,200 @@
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Anagram HR Pro">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0f3460">
-    <meta name="author" content="Damir Magdić">
-    <title>Anagram HR Pro 2026 - Hrvatski anagrami | Damir Magdić</title>
+    <title>Anagram HR</title>
     <style>
-        :root {
-            --primary: #e94560;
-            --secondary: #0f3460;
-            --accent: #ffa502;
-            --danger: #ff4757;
-            --success: #2ed573;
-            --warning: #ffa502;
-            --info: #00a8ff;
-            --dark: #1a1a2e;
-            --light: #16213e;
-            --text: #ffffff;
-            --text-secondary: #a0a0b0;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-hover: rgba(255, 255, 255, 0.18);
-            --border: rgba(255, 255, 255, 0.2);
-            --shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--dark) 0%, var(--light) 50%, var(--secondary) 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: var(--text);
-            position: relative;
-            overflow-x: hidden;
+            font-family: system-ui, sans-serif;
+            max-width: 600px;
+            margin: 1em auto;
+            padding: 1em;
+            background: #fff;
+            color: #000;
         }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(233, 69, 96, 0.08) 0%, transparent 50%);
-            animation: rotate 25s linear infinite;
-            z-index: 0;
+        @media (prefers-color-scheme: dark) {
+            body { background: #121313; color: #eee; }
+            #output { background: #1e1e1e !important; color: #eee !important; }
+            #progressContainer { background: #333 !important; }
+            input { background: #222; color: #eee; border-color: #444; }
         }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .container {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border-radius: 24px;
-            padding: 30px;
+        input, button {
+            font-size: 1.1em;
+            padding: .7em;
             width: 100%;
-            max-width: 980px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
+            margin: .5em 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #e94560, #ff6b6b, #ffa502);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 3px;
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 400;
-        }
-
-        .status-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 14px;
-            border: 1px solid var(--border);
-        }
-
-        .status-item { text-align: center; padding: 5px; }
-        .status-label {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 4px;
-        }
-        .status-value { font-size: 1rem; font-weight: 700; color: var(--accent); }
-        .status-value.warning { color: var(--warning); }
-        .status-value.success { color: var(--success); }
-
-        .input-section { margin-bottom: 20px; }
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .input-group { position: relative; }
-        .input-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        .text-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--glass);
-            color: var(--text);
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-        .text-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.25);
-            background: var(--glass-hover);
-        }
-        .text-input:disabled { opacity: 0.5; cursor: not-allowed; }
-        .text-input::placeholder { color: rgba(255, 255, 255, 0.35); }
-
-        .source-selector {
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 14px;
-            border: 1px solid var(--border);
-        }
-        .source-title {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        .source-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .source-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            background: var(--glass);
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        .source-toggle:hover { border-color: var(--primary); background: var(--glass-hover); }
-        .source-toggle.active {
-            border-color: var(--success);
-            background: rgba(46, 213, 115, 0.15);
-            box-shadow: 0 0 15px rgba(46, 213, 115, 0.2);
-        }
-        .source-checkbox {
-            width: 18px; height: 18px;
-            border-radius: 4px;
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            font-size: 0.7rem;
-        }
-        .source-toggle.active .source-checkbox {
-            background: var(--success);
-            border-color: var(--success);
-            color: white;
-        }
-        .source-info { flex: 1; min-width: 0; }
-        .source-name { font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .source-count { font-size: 0.65rem; color: var(--text-secondary); }
-        .select-all-btn {
-            margin-top: 10px;
-            padding: 6px 14px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            transition: all 0.3s ease;
-        }
-        .select-all-btn:hover { background: var(--glass-hover); border-color: var(--primary); }
-
-        .mode-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
-        .mode-btn {
-            padding: 12px 8px;
-            background: var(--glass);
-            color: var(--text);
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-        .mode-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--primary), #c23152);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 0;
-        }
-        .mode-btn:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 8px 20px rgba(233, 69, 96, 0.25); }
-        .mode-btn.active { border-color: var(--primary); box-shadow: 0 6px 20px rgba(233, 69, 96, 0.35); }
-        .mode-btn.active::before { opacity: 1; }
-        .mode-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .mode-icon { font-size: 1.5rem; position: relative; z-index: 1; }
-        .mode-text { position: relative; z-index: 1; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; }
-        .mode-badge {
-            position: absolute;
-            top: 6px; right: 6px;
-            background: var(--accent);
-            color: var(--dark);
-            font-size: 0.6rem;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 15px;
-            z-index: 2;
-        }
-
-        .control-buttons { display: flex; gap: 10px; margin-bottom: 15px; }
-        .btn-generate {
-            flex: 1;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary), #c23152);
-            color: white;
+        input { background: #fff; color: #000; }
+        button {
+            background: #0064c9;
+            color: #fff;
             border: none;
-            border-radius: 14px;
-            font-size: 1.05rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.35);
         }
-        .btn-generate:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(233, 69, 96, 0.5); }
-        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        .btn-stop {
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #ff4757, #c0392b);
-            color: white;
-            border: none;
-            border-radius: 14px;
+        button:disabled { opacity: .5; }
+        #output {
+            white-space: pre-wrap;
+            background: #f5f5f5;
+            color: #000;
+            padding: 1em;
+            border-radius: 8px;
+            margin-top: 1em;
+            max-height: 60vh;
+            overflow: auto;
             font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            line-height: 1.5;
+        }
+        #progressContainer {
             display: none;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.35);
-            animation: pulse-stop 2s infinite;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        @keyframes pulse-stop {
-            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.6); }
-            70% { box-shadow: 0 0 0 12px rgba(255, 71, 87, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
-        }
-        .btn-stop.visible { display: flex; }
-        .btn-stop:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255, 71, 87, 0.5); }
-
-        .timer-display {
-            display: none;
-            text-align: center;
-            margin-bottom: 12px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        .timer-display.visible { display: block; }
-        .timer-value { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
-        .timer-value.urgent { color: var(--danger); animation: blink 0.5s infinite; }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .progress-section {
-            margin: 15px 0;
-            display: none;
-            padding: 18px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 14px;
-            border: 1px solid var(--border);
-        }
-        .progress-section.visible { display: block; }
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .progress-title { font-weight: 600; color: var(--text); font-size: 0.9rem; }
-        .progress-percentage { color: var(--accent); font-weight: 700; font-size: 1.2rem; }
-        .progress-bar-outer {
             width: 100%;
-            height: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #e94560, #ff6b6b, #ffa502);
-            border-radius: 15px;
-            transition: width 0.4s ease;
-            width: 0%;
-            position: relative;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 1em 0;
             overflow: hidden;
         }
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        #progressBar {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            animation: shimmer 1.5s infinite;
+            background: #0064c9;
+            animation: progressAnim 2s infinite;
         }
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .progress-detail { color: var(--accent); font-style: italic; }
-
-        .stopped-notice {
-            display: none;
-            background: rgba(255, 165, 2, 0.2);
-            border: 1px solid var(--warning);
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            color: var(--warning);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .stopped-notice.visible { display: block; }
-
-        .timeout-notice {
-            display: none;
-            background: rgba(0, 168, 255, 0.2);
-            border: 1px solid var(--info);
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            color: var(--info);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .timeout-notice.visible { display: block; }
-
-        .results-section { margin-top: 20px; }
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .results-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
-        .results-stats { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .stat-badge {
-            background: rgba(255, 165, 2, 0.2);
-            border: 1px solid var(--accent);
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-        .stat-badge.stopped {
-            background: rgba(255, 165, 2, 0.3);
-            border-color: var(--warning);
-            color: var(--warning);
-        }
-        .btn-icon {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 8px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-icon:hover { background: rgba(233, 69, 96, 0.3); border-color: var(--primary); transform: translateY(-2px); }
-
-        .filter-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-        .filter-chip {
-            padding: 6px 14px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        .filter-chip:hover { background: var(--glass-hover); }
-        .filter-chip.active { background: var(--primary); border-color: var(--primary); font-weight: 600; }
-
-        .anagram-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 10px;
-            max-height: 550px;
-            overflow-y: auto;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            min-height: 80px;
-        }
-        .anagram-card {
-            background: var(--glass);
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            position: relative;
-            animation: fadeInUp 0.4s ease;
-            word-break: break-word;
-            font-size: 0.9rem;
-        }
-        .anagram-card:hover {
-            transform: translateY(-2px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.25);
-            z-index: 5;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .word-count-badge {
-            position: absolute;
-            top: 6px; right: 6px;
-            background: rgba(0, 0, 0, 0.6);
-            color: var(--accent);
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 10px;
-        }
-        .anagram-card.type-1 { border-left: 3px solid #ffa502; }
-        .anagram-card.type-2 { border-left: 3px solid #00a8ff; }
-        .anagram-card.type-3 { border-left: 3px solid #00cec9; }
-        .anagram-card.type-multi { border-left: 3px solid #a55eea; }
-
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-secondary);
-            grid-column: 1 / -1;
-        }
-        .empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5; }
-
-        .app-footer {
-            margin-top: 20px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-        .app-footer a { color: var(--accent); text-decoration: none; }
-        .app-footer a:hover { color: var(--primary); }
-
-        .install-banner {
-            display: none;
-            background: linear-gradient(135deg, rgba(233, 69, 96, 0.3), rgba(255, 107, 107, 0.3));
-            border: 1px solid var(--primary);
-            padding: 15px;
-            border-radius: 14px;
-            margin-top: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .install-banner:hover { transform: translateY(-2px); }
-
-        .scroll-top {
-            position: fixed;
-            bottom: 25px; right: 25px;
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        .scroll-top.visible { display: flex; }
-        .scroll-top:hover { transform: translateY(-3px); }
-
-        .anagram-grid::-webkit-scrollbar { width: 5px; }
-        .anagram-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); border-radius: 10px; }
-        .anagram-grid::-webkit-scrollbar-thumb { background: rgba(233, 69, 96, 0.4); border-radius: 10px; }
-
-        @media (max-width: 768px) {
-            .container { padding: 20px; }
-            .logo { font-size: 2.2rem; }
-            .input-row { grid-template-columns: 1fr; }
-            .mode-selector { grid-template-columns: repeat(2, 1fr); }
-            .source-grid { grid-template-columns: repeat(2, 1fr); }
-            .anagram-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); max-height: 400px; }
-            .status-bar { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 480px) {
-            .mode-selector { grid-template-columns: 1fr; }
-            .source-grid { grid-template-columns: 1fr 1fr; }
-            .anagram-grid { grid-template-columns: 1fr 1fr; }
-            .control-buttons { flex-direction: column; }
+        @keyframes progressAnim {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">Anagram HR Pro</div>
-            <div class="subtitle">Generator hrvatskih anagrama • 4 izvora riječi • 10s limit</div>
-        </div>
-
-        <div class="status-bar">
-            <div class="status-item">
-                <div class="status-label">📚 Rječnik</div>
-                <div class="status-value" id="dictCount">0</div>
-            </div>
-            <div class="status-item">
-                <div class="status-label">🌐 Izvori</div>
-                <div class="status-value" id="activeSources">0/4</div>
-            </div>
-            <div class="status-item">
-                <div class="status-label">🎯 Pretraga</div>
-                <div class="status-value" id="lastSearch" style="font-size:0.85rem;">-</div>
-            </div>
-            <div class="status-item">
-                <div class="status-label">⏱️ Vrijeme</div>
-                <div class="status-value" id="searchTime" style="font-size:0.85rem;">-</div>
-            </div>
-            <div class="status-item">
-                <div class="status-label">✅ Rezultati</div>
-                <div class="status-value" id="resultCount">-</div>
-            </div>
-        </div>
-
-        <div class="input-section">
-            <div class="input-row">
-                <div class="input-group">
-                    <label class="input-label" for="firstName">✏️ Ime</label>
-                    <input type="text" id="firstName" class="text-input" placeholder="Unesite ime..." autocomplete="off" maxlength="30">
-                </div>
-                <div class="input-group">
-                    <label class="input-label" for="lastName">✏️ Prezime</label>
-                    <input type="text" id="lastName" class="text-input" placeholder="Unesite prezime..." autocomplete="off" maxlength="30">
-                </div>
-            </div>
-
-            <div class="source-selector">
-                <div class="source-title">📂 Odaberite izvore riječi:</div>
-                <div class="source-grid" id="sourceGrid">
-                    <div class="source-toggle active" data-source="osnovni">
-                        <div class="source-checkbox">✓</div>
-                        <div class="source-info">
-                            <div class="source-name">📖 Osnovni</div>
-                            <div class="source-count">45,000+</div>
-                        </div>
-                    </div>
-                    <div class="source-toggle active" data-source="rjecnik">
-                        <div class="source-checkbox">✓</div>
-                        <div class="source-info">
-                            <div class="source-name">🌐 rjecnik.hr</div>
-                            <div class="source-count">15,000+</div>
-                        </div>
-                    </div>
-                    <div class="source-toggle active" data-source="ihjj">
-                        <div class="source-checkbox">✓</div>
-                        <div class="source-info">
-                            <div class="source-name">🏛️ ihjj.hr</div>
-                            <div class="source-count">12,000+</div>
-                        </div>
-                    </div>
-                    <div class="source-toggle active" data-source="portali">
-                        <div class="source-checkbox">✓</div>
-                        <div class="source-info">
-                            <div class="source-name">📰 Portali</div>
-                            <div class="source-count">8,000+</div>
-                        </div>
-                    </div>
-                </div>
-                <button class="select-all-btn" id="selectAllBtn">Odaberi sve / Poništi</button>
-            </div>
-
-            <div class="mode-selector">
-                <button class="mode-btn active" data-mode="single">
-                    <span class="mode-icon">1️⃣</span><span class="mode-text">Jedna riječ</span>
-                </button>
-                <button class="mode-btn" data-mode="double">
-                    <span class="mode-icon">2️⃣</span><span class="mode-text">Dvije riječi</span>
-                </button>
-                <button class="mode-btn" data-mode="triple">
-                    <span class="mode-icon">3️⃣</span><span class="mode-text">Tri riječi</span>
-                </button>
-                <button class="mode-btn" data-mode="multi">
-                    <span class="mode-icon">🔢</span><span class="mode-text">Više riječi</span>
-                    <span class="mode-badge">4+</span>
-                </button>
-            </div>
-
-            <div class="timer-display" id="timerDisplay">
-                ⏱️ Preostalo vrijeme: <span class="timer-value" id="timerValue">10.0s</span>
-            </div>
-
-            <div class="control-buttons">
-                <button class="btn-generate" id="btnGenerate">🔍 Generiraj anagrame</button>
-                <button class="btn-stop" id="btnStop">⏹ STOP - Prikaži odmah</button>
-            </div>
-        </div>
-
-        <div class="progress-section" id="progressSection">
-            <div class="progress-header">
-                <span class="progress-title" id="progressTitle">Spreman...</span>
-                <span class="progress-percentage" id="progressPercent">0%</span>
-            </div>
-            <div class="progress-bar-outer">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="progress-info">
-                <span id="progressStatus">Čekam unos...</span>
-                <span class="progress-detail" id="progressDetail"></span>
-            </div>
-        </div>
-
-        <div class="stopped-notice" id="stoppedNotice">
-            ⚠️ Generiranje zaustavljeno! Prikazani su anagrami pronađeni do trenutka prekida.
-        </div>
-
-        <div class="timeout-notice" id="timeoutNotice">
-            ℹ️ Vremensko ograničenje (10s)! Prikazani su anagrami pronađeni u zadanom vremenu.
-        </div>
-
-        <div class="results-section" id="resultsSection">
-            <div class="results-header">
-                <div class="results-title">✨ Pronađeni anagrami</div>
-                <div class="results-stats">
-                    <span class="stat-badge" id="resultsBadge">0 anagrama</span>
-                    <button class="btn-icon" id="clearBtn">✕ Očisti</button>
-                    <button class="btn-icon" id="copyBtn">📋 Kopiraj</button>
-                </div>
-            </div>
-            <div class="filter-bar" id="filterBar" style="display:none;">
-                <button class="filter-chip active" data-filter="all">Svi</button>
-                <button class="filter-chip" data-filter="4">4 riječi</button>
-                <button class="filter-chip" data-filter="5">5 riječi</button>
-                <button class="filter-chip" data-filter="6">6 riječi</button>
-                <button class="filter-chip" data-filter="7">7+ riječi</button>
-            </div>
-            <div class="anagram-grid" id="anagramGrid">
-                <div class="empty-state">
-                    <div class="empty-icon">🔍</div>
-                    <p>Unesite ime i prezime te kliknite "Generiraj anagrame"</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="install-banner" id="installBanner">
-            📱 <strong>Instalirajte aplikaciju</strong><br>
-            <small>Dodajte na početni zaslon za offline rad</small>
-        </div>
-
-        <div class="app-footer">
-            <p>🌐 Izvori: Osnovni rječnik | rjecnik.hr | ihjj.hr | Hrvatski portali</p>
-            <p>© 2026 Anagram HR Pro | Autor: Damir Magdić | <a href="https://damirmagdic10.github.io/anagram-hr/" target="_blank">GitHub</a></p>
-        </div>
-    </div>
-
-    <button class="scroll-top" id="scrollTop" title="Natrag na vrh">↑</button>
+    <h2>🇭🇷 Anagrami imena i prezimena</h2>
+    <p style="text-align:center;opacity:.7">Autor: Damir Magdić</p>
+    <input id="ime" placeholder="Ime">
+    <input id="prezime" placeholder="Prezime">
+    <button id="btn1" onclick="trazi(1)">Anagram s jednom riječju</button>
+    <button id="btn2" onclick="trazi(2)">Anagrami s dvije riječi</button>
+    <button id="btn3" onclick="trazi(3)">Anagrami s tri riječi</button>
+    <button id="loadBtn" onclick="loadBigDict()" style="background:#333;font-weight:400">Učitaj prošireni rječnik (50k+ riječi)</button>
+    <div id="progressContainer"><div id="progressBar"></div></div>
+    <div id="output">Ako nema rezultata, učitajte prošireni rječnik.</div>
 
     <script>
-        // ==================== GLOBALNI STATE ====================
-        const state = {
-            dictionaries: {
-                osnovni: new Set(),
-                rjecnik: new Set(),
-                ihjj: new Set(),
-                portali: new Set()
-            },
-            combinedDictionary: new Set(),
-            activeSources: new Set(['osnovni', 'rjecnik', 'ihjj', 'portali']),
-            currentMode: 'single',
-            isGenerating: false,
-            stopped: false,
-            timedOut: false,
-            allResults: [],
-            activeFilter: 'all',
-            searchStartTime: null,
-            abortController: null,
-            timerInterval: null,
-            maxTime: 10000
-        };
+        const smallDict = ["a","ali","ako","ba","bar","bih","bio","biti","bog","bol","brat","broj","budem","budi","cesta","cure","čaj","čekati","čovjek","će","ću","da","dan","dana","dati","dio","djece","djeca","dobro","doći","dok","dom","dosta","drugo","drugi","država","dugo","dva","dvije","evo","film","gaj","gdje","glas","glava","godina","grad","hrana","hrvatska","htjeti","i","iako","ili","imati","ime","inače","ipak","ispod","isto","iz","između","ja","jako","jedan","jedna","jedno","je","jer","jezik","joj","još","jutro","kao","kad","kako","kamo","kat","kaže","kiša","klima","knjiga","koga","koliko","kome","konj","kraj","kroz","kruh","kuća","kupiti","kvadrat","lako","led","lijepo","ljeto","ljubav","ma","majka","malo","me","među","mi","mjesto","mlad","mnogo","moć","mogu","mora","more","možda","mu","na","naj","nama","narod","nas","naš","ne","nego","neki","nema","ni","nije","nisu","noć","novi","novo","nje","njega","njih","njoj","no","nos","o","od","odmah","on","ona","one","oni","ono","opet","osim","otac","ovaj","ovo","pa","pet","pio","piti","po","pod","pogled","pokraj","pol","pola","policija","ponovo","posao","poslije","potreba","prvi","put","puta","rad","raditi","rat","reći","riječ","rijeka","ruka","s","sa","sad","sam","samo","sestra","se","sin","sinoć","slika","sloboda","slovo","smrt","snaga","soba","sport","srce","sredina","stol","stranka","student","sunce","sutra","svaki","sve","svijet","svjetlo","taj","tako","tamo","te","tema","temelj","ti","tjedan","to","treba","tri","tu","tvoj","u","ući","ulica","umjetnost","upravo","ustav","učiti","vani","velik","vi","vidjeti","vino","voda","vojnik","vrat","vrijeme","vrlo","vrt","zadnji","zar","zašto","zbog","zdravlje","zemlja","zimi","znati","žena","život"];
+        let wordSet = new Set(smallDict);
 
-        // ==================== RJEČNICI ====================
+        function getL(s) { return s.toLowerCase().replace(/\s/g,'').normalize('NFC'); }
+        function cnt(s) { const o={}; for(let c of s) o[c]=(o[c]||0)+1; return o; }
+        function can(w,a) { for(let c in w) if(!a[c]||a[c]<w[c]) return !1; return !0; }
+        function isEmpty(o) { return Object.keys(o).length===0; }
+        function subtract(a,b) { const r={...a}; for(let c in b) { r[c]-=b[c]; if(r[c]<=0) delete r[c]; } return r; }
 
-        function getOsnovniRjecnik() {
-            return new Set([
-                "more", "gora", "voda", "zemlja", "sunce", "mjesec", "zvijezda", "rijeka",
-                "planina", "šuma", "cvijet", "ptica", "riba", "pas", "mačka", "konj",
-                "nebo", "oblak", "kiša", "snijeg", "vjetar", "oluja", "munja", "grom",
-                "duga", "boja", "svjetlo", "tama", "vatra", "dim", "pepeo", "kamen",
-                "pijesak", "zlato", "srebro", "željezo", "bakar", "drvo", "list", "grana",
-                "korijen", "plod", "sjeme", "trava", "žito", "stablo", "šuma",
-                "čovjek", "žena", "dijete", "ruka", "noga", "glava", "oko", "uho",
-                "nos", "usta", "srce", "krv", "kost", "koža", "kosa", "zub",
-                "jezik", "glas", "prst", "rame", "koljeno", "stopalo", "dlan", "nokat",
-                "vrat", "leđa", "trbuh", "prsa", "bedro", "list", "gležanj", "zglob",
-                "ljubav", "sreća", "tuga", "bol", "radost", "mir", "rat", "život",
-                "smrt", "dan", "noć", "jutro", "večer", "godina", "vrijeme", "mjesto",
-                "istina", "laž", "pravda", "sloboda", "vjera", "nada", "mudrost", "hrabrost",
-                "poštenje", "čast", "ponos", "sram", "strah", "strpljenje",
-                "kuća", "vrata", "prozor", "stol", "stolica", "krevet", "soba", "kuhinja",
-                "vrt", "polje", "cesta", "put", "grad", "selo", "država", "svijet",
-                "knjiga", "slika", "glazba", "film", "škola", "bolnica", "crkva", "trgovina",
-                "krov", "zid", "pod", "strop", "lampa", "svijeća", "sat", "ogledalo",
-                "kruh", "vino", "mlijeko", "meso", "sol", "šećer", "med", "ulje",
-                "sir", "jaje", "juha", "kolač", "voće", "jabuka", "kruška", "šljiva",
-                "grožđe", "breskva", "lubenica", "naranča", "limun", "banana", "jagoda",
-                "malina", "kupina", "borovnica", "višnja", "marelica", "badem", "orah", "lješnjak",
-                "sport", "nogomet", "košarka", "tenis", "plivanje", "trčanje", "skijanje",
-                "biciklizam", "ribolov", "lov", "šah", "karte", "igra", "zabava", "ples",
-                "rukomet", "odbojka", "boks", "karate", "judo", "streličarstvo", "veslanje",
-                "računalo", "mobitel", "telefon", "televizor", "radio", "kamera", "internet",
-                "program", "aplikacija", "ekran", "tipkovnica", "miš", "pisač", "baterija",
-                "laptop", "tablet", "slušalice", "punjač", "žica", "kabel", "utikač",
-                "učitelj", "liječnik", "profesor", "student", "novinar", "glumac", "pjevač",
-                "kuhar", "policajac", "vatrogasac", "vojnik", "pilot", "vozač", "prodavač",
-                "inženjer", "arhitekt", "odvjetnik", "sudac", "znanstvenik", "umjetnik",
-                "i", "u", "na", "za", "od", "do", "iz", "sa", "po", "pri",
-                "o", "a", "e", "k", "s", "t", "n", "m", "r", "v",
-                "ali", "ili", "ni", "da", "ne", "li", "se", "bi", "će", "je",
-                "sam", "si", "smo", "ste", "su", "ću", "ćeš", "mi", "ti", "vi",
-                "on", "ona", "ono", "oni", "one", "ova", "moj", "tvoj", "naš", "vaš",
-                "ab", "ad", "ah", "aj", "al", "am", "an", "ap", "ar", "as", "at",
-                "ba", "be", "bi", "bo", "br", "bu", "ce", "ci", "ča", "če", "ći",
-                "da", "de", "di", "do", "dr", "du", "dž", "đa", "đe", "ed", "ej",
-                "ek", "el", "em", "en", "er", "es", "et", "ev", "fa", "fe", "fi",
-                "fo", "ga", "ge", "gi", "gl", "go", "gr", "ha", "he", "hi", "ho",
-                "hr", "ić", "id", "ig", "ih", "ij", "ik", "il", "im", "in", "ip",
-                "ir", "is", "it", "iv", "iz", "ja", "je", "ji", "jo", "ju", "ka",
-                "ke", "ki", "kl", "ko", "kr", "ku", "la", "le", "li", "lo", "lj",
-                "ma", "me", "mi", "mo", "mr", "mu", "na", "ne", "ni", "nj", "no",
-                "nu", "ob", "od", "oj", "ok", "ol", "om", "on", "op", "or", "os",
-                "ot", "ov", "oz", "pa", "pe", "pi", "pl", "po", "pr", "ra", "re",
-                "ri", "ro", "ru", "sa", "se", "si", "sk", "sl", "sm", "so", "sp",
-                "sr", "st", "su", "sv", "ša", "še", "ši", "ta", "te", "ti", "to",
-                "tr", "tu", "ub", "ud", "ug", "ul", "um", "un", "up", "ur", "us",
-                "ut", "uz", "va", "ve", "vi", "vo", "vr", "za", "ze", "zi", "zl",
-                "zm", "zo", "zr", "zu", "ža", "že", "ži"
-            ]);
+        async function loadBigDict() {
+            const btn = document.getElementById('loadBtn'), o = document.getElementById('output');
+            btn.disabled = !0;
+            o.innerHTML = '<p>Učitavam veliki rječnik...</p>';
+            try {
+                const r = await fetch('https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2016/hr/hr_50k.txt');
+                if(!r.ok) throw Error('HTTP '+r.status);
+                const t = await r.text(), ns = new Set(smallDict);
+                t.split(/\n/).forEach(l => {
+                    const w = l.split(/\s+/)[0];
+                    if(w && /^[a-zčćđšž]+$/i.test(w)) ns.add(w.toLowerCase());
+                });
+                wordSet = ns;
+                o.innerHTML = '<p>Učitano '+ns.size.toLocaleString('hr')+' riječi. Možete pretraživati.</p>';
+            } catch(e) {
+                o.innerHTML = '<p>Greška: '+e.message+'</p>';
+            } finally { btn.disabled = !1; }
         }
 
-        function getRjecnikHrWords() {
-            return new Set([
-                "abeceda", "adresa", "akademija", "aktivnost", "album", "algebra", "alkohol",
-                "ambasada", "analiza", "anatomija", "antena", "apoteka", "arhitekt", "astronomija",
-                "atmosfera", "automobil", "bakterija", "balet", "banka", "baterija", "biblioteka",
-                "biologija", "biskup", "blagajna", "bomba", "botanika", "brak", "breskva",
-                "brod", "broj", "budućnost", "cigareta", "cipela", "civilizacija", "crkva",
-                "časnik", "čelik", "činjenica", "čokolada", "demokracija", "dijagnoza", "dijalog",
-                "dijamant", "diploma", "direktor", "disciplina", "dnevnik", "doktor", "dokument",
-                "dolina", "domovina", "drama", "društvo", "država", "ekonomija", "elektrika",
-                "energija", "fabrika", "fakultet", "familija", "fantazija", "festival", "figura",
-                "filozofija", "finansije", "fizika", "fontana", "formula", "fotografija", "fraza",
-                "funkcija", "galaksija", "galerija", "genetika", "geografija", "geologija",
-                "gimnazija", "gitara", "glazba", "gljiva", "gramatika", "granica", "grupa",
-                "guma", "gimnastika", "harmonika", "hemija", "higijena", "himna", "hipoteza",
-                "historija", "hrana", "ideja", "industrija", "informacija", "injekcija",
-                "inspekcija", "institucija", "inteligencija", "intervencija", "izložba",
-                "januar", "jezero", "jubilej", "jurisdikcija", "kabinet", "kafa", "kakao",
-                "kalendar", "kamera", "kanal", "kancelarija", "kapija", "kapital", "karakter"
-            ]);
-        }
+        function trazi(maxWords) {
+            const ime = document.getElementById('ime').value.trim(),
+                  prezime = document.getElementById('prezime').value.trim(),
+                  o = document.getElementById('output'),
+                  prog = document.getElementById('progressContainer'),
+                  btn1 = document.getElementById('btn1'),
+                  btn2 = document.getElementById('btn2'),
+                  btn3 = document.getElementById('btn3');
+            if(!ime || !prezime) { o.innerHTML = '<p>Unesite ime i prezime.</p>'; return; }
+            const s = getL(ime+prezime), target = cnt(s);
+            if(isEmpty(target)) { o.innerHTML = '<p>Nema slova.</p>'; return; }
 
-        function getIhjjHrWords() {
-            return new Set([
-                "jezikoslovlje", "lingvistika", "morfologija", "sintaksa", "fonetika",
-                "fonologija", "semantika", "pragmatika", "dijalektologija", "etimologija",
-                "leksikografija", "onomastika", "frazeologija", "stilistika", "terminologija",
-                "hrvatski", "standardni", "književni", "narodni", "sleng", "žargon",
-                "arhaizam", "neologizam", "tuđica", "posuđenica", "glagol", "imenica",
-                "pridjev", "zamjenica", "prilog", "prijedlog", "veznik", "čestica",
-                "padež", "nominativ", "genitiv", "dativ", "akuzativ", "vokativ",
-                "lokativ", "instrumental", "jednina", "množina", "prezent", "perfekt",
-                "futur", "imperativ", "infinitiv", "particip", "glagoljica", "latinica",
-                "pravopis", "rječnik", "gramatika", "književnost", "poezija", "proza",
-                "roman", "priča", "pjesma", "sonet", "balada", "komedija", "tragedija",
-                "satira", "metafora", "simbol", "ritam", "rima", "strofa", "stih",
-                "refren", "motiv", "tema", "fabula", "lik", "radnja", "dijalog",
-                "monolog", "prolog", "epilog", "odlomak", "poglavlje", "bilješka"
-            ]);
-        }
+            btn1.disabled = btn2.disabled = btn3.disabled = !0;
+            prog.style.display = 'block';
+            o.innerHTML = '<p>Tražim anagrame...</p>';
 
-        function getPortalWords() {
-            return new Set([
-                "vijest", "članak", "komentar", "analiza", "reportaža", "intervju",
-                "kolumna", "urednik", "novinar", "fotografija", "video", "događaj",
-                "politika", "sport", "kultura", "zabava", "tehnologija", "znanost",
-                "zdravlje", "ekonomija", "svijet", "hrvatska", "regija", "lokalno",
-                "istraživanje", "otkriće", "incident", "nesreća", "prosvjed", "izbori",
-                "vlada", "oporba", "sabor", "predsjednik", "premijer", "ministar",
-                "gradonačelnik", "načelnik", "župan", "općina", "županija",
-                "sud", "sudac", "odvjetnik", "policija", "vojska",
-                "financije", "burza", "dionica", "investicija", "obrazovanje",
-                "fakultet", "sveučilište", "student", "turizam", "putovanje",
-                "destinacija", "hotel", "apartman", "prognoza", "temperatura",
-                "meteorologija", "promet", "gužva", "cesta", "autocesta", "vozilo",
-                "index", "jutarnji", "večernji", "dnevnik", "slobodna", "dalmacija",
-                "mediji", "televizija", "emisija", "serija", "dokumentarac", "prijenos"
-            ]);
-        }
+            const candidates = [];
+            for(let w of wordSet) {
+                if(w.length<2) continue;
+                const wc = cnt(w);
+                if(can(wc,target)) candidates.push({word:w, cnt:wc});
+            }
 
-        // ==================== UPRAVLJANJE RJEČNICIMA ====================
-
-        function buildCombinedDictionary() {
-            state.combinedDictionary.clear();
-            if (state.activeSources.has('osnovni')) state.dictionaries.osnovni.forEach(w => state.combinedDictionary.add(w));
-            if (state.activeSources.has('rjecnik')) state.dictionaries.rjecnik.forEach(w => state.combinedDictionary.add(w));
-            if (state.activeSources.has('ihjj')) state.dictionaries.ihjj.forEach(w => state.combinedDictionary.add(w));
-            if (state.activeSources.has('portali')) state.dictionaries.portali.forEach(w => state.combinedDictionary.add(w));
-            
-            const variations = new Set();
-            state.combinedDictionary.forEach(word => {
-                if (word.length > 2) {
-                    if (word.endsWith('a')) { variations.add(word.slice(0, -1)); variations.add(word + 'e'); }
-                    if (word.endsWith('o') || word.endsWith('e')) variations.add(word.slice(0, -1) + 'a');
-                    variations.add(word + 'a'); variations.add(word + 'e'); variations.add(word + 'i'); variations.add(word + 'u');
-                }
-            });
-            variations.forEach(word => { if (word.length >= 2 && word.length <= 20) state.combinedDictionary.add(word); });
-        }
-
-        function updateActiveSources() {
-            document.getElementById('activeSources').textContent = `${state.activeSources.size}/4`;
-            document.getElementById('dictCount').textContent = state.combinedDictionary.size.toLocaleString();
-        }
-
-        function toggleSource(sourceKey) {
-            if (state.isGenerating) return;
-            if (state.activeSources.has(sourceKey)) {
-                if (state.activeSources.size > 1) { state.activeSources.delete(sourceKey); }
-                else { alert('Morate odabrati barem jedan izvor!'); return; }
-            } else { state.activeSources.add(sourceKey); }
-            buildCombinedDictionary();
-            updateActiveSources();
-            updateSourceToggles();
-        }
-
-        function updateSourceToggles() {
-            document.querySelectorAll('.source-toggle').forEach(toggle => {
-                const source = toggle.dataset.source;
-                if (state.activeSources.has(source)) {
-                    toggle.classList.add('active');
-                    toggle.querySelector('.source-checkbox').textContent = '✓';
+            if(maxWords === 1) {
+                const single = candidates.filter(c => {
+                    if(Object.keys(c.cnt).length !== Object.keys(target).length) return !1;
+                    for(let k in target) if(c.cnt[k] !== target[k]) return !1;
+                    return !0;
+                }).map(c => c.word);
+                prog.style.display = 'none';
+                btn1.disabled = btn2.disabled = btn3.disabled = !1;
+                if(single.length) {
+                    o.innerHTML = '<h3>Anagrami s jednom riječju:</h3><ul>'+single.map(w=>'<li>'+w+'</li>').join('')+'</ul>';
                 } else {
-                    toggle.classList.remove('active');
-                    toggle.querySelector('.source-checkbox').textContent = '';
+                    o.innerHTML = '<p>Nema prihvatljivih anagrama.</p>';
                 }
-            });
-        }
-
-        function selectAllSources() {
-            if (state.isGenerating) return;
-            if (state.activeSources.size === 4) {
-                state.activeSources.clear();
-                state.activeSources.add('osnovni');
-            } else {
-                state.activeSources = new Set(['osnovni', 'rjecnik', 'ihjj', 'portali']);
+                return;
             }
-            buildCombinedDictionary();
-            updateActiveSources();
-            updateSourceToggles();
-        }
 
-        // ==================== ALGORITMI ZA ANAGRAME ====================
-
-        function canFormWord(availableLetters, targetLetters) {
-            const temp = [...availableLetters];
-            for (const letter of targetLetters) {
-                const index = temp.indexOf(letter);
-                if (index === -1) return false;
-                temp.splice(index, 1);
+            const multi = [];
+            const stack = [];
+            for(let i=0; i<candidates.length; i++) {
+                const rem = subtract(target, candidates[i].cnt);
+                stack.push({idx:i, rem, path:[candidates[i].word], nextIdx:i+1});
             }
-            return true;
-        }
+            const startTime = Date.now(), timeLimit = 5000;
 
-        function removeLetters(letters, toRemove) {
-            const result = [...letters];
-            for (const letter of toRemove) {
-                const index = result.indexOf(letter);
-                if (index !== -1) result.splice(index, 1);
-            }
-            return result;
-        }
-
-        function isAborted() {
-            return state.abortController?.signal.aborted;
-        }
-
-        function generateSingleWordAnagrams(letters) {
-            const results = new Set();
-            for (const word of state.combinedDictionary) {
-                if (isAborted()) break;
-                const wl = word.toLowerCase().split('').sort();
-                if (wl.length === letters.length && canFormWord(letters, wl)) results.add(word);
-            }
-            return Array.from(results).sort();
-        }
-
-        function generateDoubleWordAnagrams(letters) {
-            const results = new Set();
-            const arr = Array.from(state.combinedDictionary);
-            for (let i = 0; i < arr.length; i++) {
-                if (isAborted()) break;
-                const w1 = arr[i], l1 = w1.toLowerCase().split('').sort();
-                if (!canFormWord(letters, l1)) continue;
-                const rem = removeLetters([...letters], l1);
-                for (let j = 0; j < arr.length; j++) {
-                    if (isAborted()) break;
-                    const w2 = arr[j], l2 = w2.toLowerCase().split('').sort();
-                    if (rem.length === l2.length && canFormWord(rem, l2)) results.add([w1, w2].sort().join(' '));
-                }
-            }
-            return Array.from(results).sort();
-        }
-
-        function generateTripleWordAnagrams(letters) {
-            const results = new Set();
-            const arr = Array.from(state.combinedDictionary);
-            for (let i = 0; i < arr.length; i++) {
-                if (isAborted()) break;
-                const w1 = arr[i], l1 = w1.toLowerCase().split('').sort();
-                if (!canFormWord(letters, l1)) continue;
-                const r1 = removeLetters([...letters], l1);
-                for (let j = 0; j < arr.length; j++) {
-                    if (isAborted()) break;
-                    const w2 = arr[j], l2 = w2.toLowerCase().split('').sort();
-                    if (!canFormWord(r1, l2)) continue;
-                    const r2 = removeLetters([...r1], l2);
-                    for (let k = 0; k < arr.length; k++) {
-                        if (isAborted()) break;
-                        const w3 = arr[k], l3 = w3.toLowerCase().split('').sort();
-                        if (r2.length === l3.length && canFormWord(r2, l3)) results.add([w1, w2, w3].sort().join(' '));
+            function processChunk() {
+                let steps = 0;
+                while(stack.length && steps<1000 && multi.length<500) {
+                    const item = stack.pop();
+                    if(isEmpty(item.rem)) {
+                        if(item.path.length === maxWords) multi.push(item.path);
+                        steps++;
+                        continue;
+                    }
+                    if(item.path.length >= maxWords) continue;
+                    for(let i=item.nextIdx; i<candidates.length; i++) {
+                        const w = candidates[i];
+                        if(!can(w.cnt, item.rem)) continue;
+                        const newRem = subtract(item.rem, w.cnt);
+                        stack.push({idx:i, rem:newRem, path:item.path.concat(w.word), nextIdx:i+1});
+                        steps++;
+                        if(steps>=1000) break;
                     }
                 }
-            }
-            return Array.from(results).sort();
-        }
-
-        function generateMultiWordAnagrams(letters, minWords = 4) {
-            const results = new Set();
-            const arr = Array.from(state.combinedDictionary).sort((a, b) => a.length - b.length);
-            const maxWords = Math.min(10, Math.floor(letters.length / 2));
-            
-            function find(remaining, current, depth) {
-                if (isAborted() || depth > maxWords) return;
-                if (remaining.length === 0 && current.length >= minWords) { results.add([...current].sort().join(' ')); return; }
-                if (remaining.length === 0) return;
-                for (const word of arr) {
-                    if (isAborted()) break;
-                    const wl = word.toLowerCase().split('').sort();
-                    if (wl.length > remaining.length || !canFormWord(remaining, wl)) continue;
-                    find(removeLetters([...remaining], wl), [...current, word], depth + 1);
+                if(stack.length && (Date.now()-startTime)<timeLimit && multi.length<500) {
+                    requestAnimationFrame(processChunk);
+                    return;
                 }
-            }
-            find(letters, [], 0);
-            return Array.from(results).sort((a, b) => {
-                const ca = a.split(' ').length, cb = b.split(' ').length;
-                return ca !== cb ? ca - cb : a.localeCompare(b);
-            });
-        }
-
-        // ==================== UI FUNKCIJE ====================
-
-        function setActiveMode(mode) {
-            state.currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(b => { b.classList.remove('active'); if (b.dataset.mode === mode) b.classList.add('active'); });
-            document.getElementById('filterBar').style.display = mode === 'multi' ? 'flex' : 'none';
-            state.activeFilter = 'all';
-            document.querySelectorAll('.filter-chip').forEach(c => { c.classList.remove('active'); if (c.dataset.filter === 'all') c.classList.add('active'); });
-        }
-
-        function startTimer() {
-            const td = document.getElementById('timerDisplay'), tv = document.getElementById('timerValue');
-            let remaining = state.maxTime / 1000;
-            td.classList.add('visible');
-            tv.textContent = remaining.toFixed(1) + 's';
-            tv.classList.remove('urgent');
-            state.timerInterval = setInterval(() => {
-                remaining -= 0.1;
-                if (remaining <= 0) {
-                    remaining = 0;
-                    clearInterval(state.timerInterval);
-                    state.timedOut = true;
-                    tv.classList.add('urgent');
-                    tv.textContent = '0.0s';
-                    if (state.abortController) state.abortController.abort();
-                    handleTimeout();
+                prog.style.display = 'none';
+                btn1.disabled = btn2.disabled = btn3.disabled = !1;
+                const label = maxWords===2 ? 'dvije' : 'tri';
+                if(multi.length) {
+                    o.innerHTML = '<h3>Anagrami s '+label+' riječi ('+multi.length+'):</h3><ul>'+
+                        multi.slice(0,100).map(a=>'<li>'+a.join(' + ')+'</li>').join('')+
+                        (multi.length>100 ? '<li>... i još '+(multi.length-100)+' kombinacija</li>' : '')+
+                        '</ul>';
                 } else {
-                    tv.textContent = remaining.toFixed(1) + 's';
-                    if (remaining <= 3) tv.classList.add('urgent');
-                }
-            }, 100);
-        }
-
-        function stopTimer() {
-            if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
-            document.getElementById('timerDisplay').classList.remove('visible');
-            document.getElementById('timerValue').classList.remove('urgent');
-        }
-
-        function handleTimeout() {
-            state.isGenerating = false;
-            stopTimer();
-            document.getElementById('progressFill').style.width = '100%';
-            document.getElementById('progressPercent').textContent = '100%';
-            document.getElementById('progressStatus').textContent = 'Vrijeme isteklo!';
-            document.getElementById('progressDetail').textContent = `Prikazano ${state.allResults.length} anagrama`;
-            document.getElementById('timeoutNotice').classList.add('visible');
-            document.getElementById('btnStop').classList.remove('visible');
-            
-            const searchTime = ((Date.now() - state.searchStartTime) / 1000).toFixed(1);
-            document.getElementById('searchTime').textContent = searchTime + 's';
-            document.getElementById('resultCount').textContent = state.allResults.length;
-            
-            if (state.allResults.length > 0) displayResults(state.allResults);
-            
-            setTimeout(() => {
-                hideProgress();
-                document.getElementById('timeoutNotice').classList.remove('visible');
-                state.timedOut = false;
-            }, 3000);
-        }
-
-        function showProgress() {
-            document.getElementById('progressSection').classList.add('visible');
-            document.getElementById('btnStop').classList.add('visible');
-            document.getElementById('btnGenerate').disabled = true;
-            document.getElementById('stoppedNotice').classList.remove('visible');
-            document.getElementById('timeoutNotice').classList.remove('visible');
-            document.getElementById('firstName').disabled = true;
-            document.getElementById('lastName').disabled = true;
-            document.querySelectorAll('.mode-btn').forEach(b => b.disabled = true);
-            document.querySelectorAll('.source-toggle').forEach(t => t.style.pointerEvents = 'none');
-            document.getElementById('selectAllBtn').disabled = true;
-        }
-
-        function hideProgress() {
-            document.getElementById('progressSection').classList.remove('visible');
-            document.getElementById('btnStop').classList.remove('visible');
-            document.getElementById('btnGenerate').disabled = false;
-            document.getElementById('progressFill').style.width = '0%';
-            document.getElementById('progressPercent').textContent = '0%';
-            document.getElementById('progressStatus').textContent = 'Čekam unos...';
-            document.getElementById('progressDetail').textContent = '';
-            document.getElementById('progressTitle').textContent = 'Spreman...';
-            document.getElementById('firstName').disabled = false;
-            document.getElementById('lastName').disabled = false;
-            document.querySelectorAll('.mode-btn').forEach(b => b.disabled = false);
-            document.querySelectorAll('.source-toggle').forEach(t => t.style.pointerEvents = 'auto');
-            document.getElementById('selectAllBtn').disabled = false;
-        }
-
-        function updateProgress(percent, status, detail = '') {
-            document.getElementById('progressFill').style.width = percent + '%';
-            document.getElementById('progressPercent').textContent = Math.round(percent) + '%';
-            document.getElementById('progressStatus').textContent = status;
-            document.getElementById('progressDetail').textContent = detail;
-        }
-
-        // ==================== KLJUČNA FUNKCIJA: STOP ====================
-        
-        function stopGeneration() {
-            if (!state.isGenerating) return;
-            
-            // Prekini izvođenje
-            if (state.abortController) {
-                state.abortController.abort();
-            }
-            state.stopped = true;
-            state.isGenerating = false;
-            
-            // Zaustavi timer
-            stopTimer();
-            
-            // Ažuriraj progress bar
-            const currentPercent = parseFloat(document.getElementById('progressFill').style.width) || 50;
-            document.getElementById('progressFill').style.width = currentPercent + '%';
-            document.getElementById('progressPercent').textContent = Math.round(currentPercent) + '%';
-            document.getElementById('progressStatus').textContent = 'Generiranje zaustavljeno!';
-            document.getElementById('progressDetail').textContent = `Prikazano ${state.allResults.length} anagrama`;
-            
-            // Prikaži obavijest
-            document.getElementById('stoppedNotice').classList.add('visible');
-            
-            // Sakrij Stop gumb
-            document.getElementById('btnStop').classList.remove('visible');
-            
-            // Ažuriraj status
-            const searchTime = ((Date.now() - state.searchStartTime) / 1000).toFixed(1);
-            document.getElementById('searchTime').textContent = searchTime + 's (prekinuto)';
-            document.getElementById('resultCount').textContent = state.allResults.length;
-            
-            // ODMAH PRIKAŽI REZULTATE - ostani u aplikaciji
-            if (state.allResults.length > 0) {
-                displayResults(state.allResults);
-            } else {
-                document.getElementById('anagramGrid').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🔍</div>
-                        <p>Nema pronađenih anagrama do trenutka prekida</p>
-                    </div>`;
-                document.getElementById('resultsBadge').textContent = '0 anagrama';
-            }
-            
-            // Omogući sve kontrole natrag
-            setTimeout(() => {
-                hideProgress();
-                document.getElementById('stoppedNotice').classList.remove('visible');
-                state.stopped = false;
-            }, 2500);
-        }
-
-        async function startGeneration() {
-            if (state.isGenerating) return;
-            
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            if (!firstName || !lastName) { alert('Unesite ime i prezime!'); return; }
-            if (state.activeSources.size === 0) { alert('Odaberite barem jedan izvor!'); return; }
-
-            state.abortController = new AbortController();
-            state.isGenerating = true;
-            state.stopped = false;
-            state.timedOut = false;
-            state.allResults = [];
-            state.searchStartTime = Date.now();
-            
-            document.getElementById('lastSearch').textContent = firstName + ' ' + lastName;
-            document.getElementById('searchTime').textContent = '...';
-            document.getElementById('resultCount').textContent = '...';
-            
-            showProgress();
-            startTimer();
-            
-            const letters = (firstName + ' ' + lastName).toLowerCase().replace(/\s/g, '').split('').sort();
-            let results = [];
-            
-            updateProgress(2, 'Inicijalizacija...');
-            await sleep(200);
-            if (isAborted()) { results = state.allResults; } else {
-                switch(state.currentMode) {
-                    case 'single':
-                        document.getElementById('progressTitle').textContent = 'Anagrami s jednom riječi';
-                        updateProgress(15, 'Analiziram...');
-                        results = generateSingleWordAnagrams(letters);
-                        break;
-                    case 'double':
-                        document.getElementById('progressTitle').textContent = 'Anagrami s dvije riječi';
-                        updateProgress(8, 'Tražim...');
-                        results = generateDoubleWordAnagrams(letters);
-                        break;
-                    case 'triple':
-                        document.getElementById('progressTitle').textContent = 'Anagrami s tri riječi';
-                        updateProgress(5, 'Tražim...');
-                        results = generateTripleWordAnagrams(letters);
-                        break;
-                    case 'multi':
-                        document.getElementById('progressTitle').textContent = 'Anagrami s 4+ riječi';
-                        updateProgress(3, 'Tražim...');
-                        results = generateMultiWordAnagrams(letters);
-                        break;
+                    o.innerHTML = '<p>Nema prihvatljivih anagrama.</p>';
                 }
             }
-            
-            state.allResults = results;
-            
-            if (!isAborted() && !state.stopped) {
-                stopTimer();
-                updateProgress(100, 'Završeno!', `${results.length} anagrama`);
-                const searchTime = ((Date.now() - state.searchStartTime) / 1000).toFixed(1);
-                document.getElementById('searchTime').textContent = searchTime + 's';
-                document.getElementById('resultCount').textContent = results.length;
-                await sleep(400);
-                displayResults(results);
-                hideProgress();
-                state.isGenerating = false;
-            }
+            requestAnimationFrame(processChunk);
         }
-
-        function displayResults(results) {
-            const badge = document.getElementById('resultsBadge');
-            badge.classList.remove('stopped');
-            if (state.stopped) { badge.classList.add('stopped'); badge.textContent = `${results.length} anagrama (prekinuto)`; }
-            else if (state.timedOut) { badge.textContent = `${results.length} anagrama (10s)`; }
-            else { badge.textContent = `${results.length} anagrama`; }
-            
-            if (results.length > 0) { renderFilteredResults('all'); }
-            else {
-                document.getElementById('anagramGrid').innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>Nema pronađenih anagrama</p></div>`;
-            }
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function renderFilteredResults(filter) {
-            state.activeFilter = filter;
-            let filtered = state.allResults;
-            if (filter !== 'all' && state.currentMode === 'multi') {
-                const wc = parseInt(filter);
-                filtered = filter === '7' ? state.allResults.filter(a => a.split(' ').length >= 7) : state.allResults.filter(a => a.split(' ').length === wc);
-            }
-            const grid = document.getElementById('anagramGrid');
-            if (filtered.length > 0) {
-                const tc = state.currentMode === 'multi' ? 'type-multi' : state.currentMode === 'triple' ? 'type-3' : state.currentMode === 'double' ? 'type-2' : 'type-1';
-                grid.innerHTML = filtered.map(a => {
-                    const wc = a.split(' ').length;
-                    return `<div class="anagram-card ${tc}"><div class="anagram-text">${a}</div>${state.currentMode === 'multi' ? `<div class="word-count-badge">${wc} rij.</div>` : ''}</div>`;
-                }).join('');
-                document.getElementById('resultsBadge').textContent = `Prikazano ${filtered.length} od ${state.allResults.length}`;
-            } else {
-                grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🏷️</div><p>Nema anagrama za filter</p></div>`;
-            }
-        }
-
-        function clearResults() {
-            state.allResults = [];
-            document.getElementById('stoppedNotice').classList.remove('visible');
-            document.getElementById('timeoutNotice').classList.remove('visible');
-            document.getElementById('anagramGrid').innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>Unesite ime i prezime te kliknite "Generiraj anagrame"</p></div>`;
-            document.getElementById('resultsBadge').textContent = '0 anagrama';
-            document.getElementById('resultsBadge').classList.remove('stopped');
-            document.getElementById('lastSearch').textContent = '-';
-            document.getElementById('searchTime').textContent = '-';
-            document.getElementById('resultCount').textContent = '-';
-            hideProgress();
-            stopTimer();
-        }
-
-        async function copyAllResults() {
-            if (state.allResults.length === 0) return;
-            try { await navigator.clipboard.writeText(state.allResults.join('\n')); alert(`✅ Kopirano ${state.allResults.length} anagrama!`); }
-            catch (err) { alert('❌ Greška pri kopiranju'); }
-        }
-
-        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-        // ==================== EVENT LISTENERS ====================
-
-        document.getElementById('btnGenerate').addEventListener('click', startGeneration);
-        document.getElementById('btnStop').addEventListener('click', stopGeneration);
-        document.getElementById('selectAllBtn').addEventListener('click', selectAllSources);
-        document.getElementById('clearBtn').addEventListener('click', clearResults);
-        document.getElementById('copyBtn').addEventListener('click', copyAllResults);
-
-        document.querySelectorAll('.source-toggle').forEach(t => t.addEventListener('click', () => toggleSource(t.dataset.source)));
-        document.querySelectorAll('.mode-btn').forEach(b => b.addEventListener('click', () => setActiveMode(b.dataset.mode)));
-        document.querySelectorAll('.filter-chip').forEach(c => c.addEventListener('click', (e) => {
-            document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
-            e.target.classList.add('active');
-            renderFilteredResults(e.target.dataset.filter);
-        }));
-
-        document.getElementById('firstName').addEventListener('keypress', e => { if (e.key === 'Enter') document.getElementById('lastName').focus(); });
-        document.getElementById('lastName').addEventListener('keypress', e => { if (e.key === 'Enter') startGeneration(); });
-
-        const st = document.getElementById('scrollTop');
-        window.addEventListener('scroll', () => st.classList.toggle('visible', window.pageYOffset > 300));
-        st.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-        let dp;
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); dp = e; document.getElementById('installBanner').style.display = 'block'; });
-        document.getElementById('installBanner').addEventListener('click', async () => { if (dp) { dp.prompt(); await dp.userChoice; dp = null; document.getElementById('installBanner').style.display = 'none'; } });
-
-        // ==================== INICIJALIZACIJA ====================
-        function init() {
-            state.dictionaries.osnovni = getOsnovniRjecnik();
-            state.dictionaries.rjecnik = getRjecnikHrWords();
-            state.dictionaries.ihjj = getIhjjHrWords();
-            state.dictionaries.portali = getPortalWords();
-            buildCombinedDictionary();
-            updateActiveSources();
-            updateSourceToggles();
-            console.log('✅ Anagram HR Pro - Spreman!');
-            console.log('👤 Autor: Damir Magdić');
-            console.log(`📚 ${state.combinedDictionary.size.toLocaleString()} riječi`);
-            console.log('⏹ Stop gumb odmah prikazuje anagrame i ostaje u aplikaciji');
-        }
-        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
