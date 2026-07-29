@@ -327,6 +327,13 @@
             align-items: center;
         }
 
+        #output h4 {
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid var(--input-border);
+        }
+
         #output ul {
             list-style: none;
             padding: 0;
@@ -426,9 +433,9 @@
     </div>
 
     <div class="button-row">
-        <button class="btn-generate" id="btn1" onclick="trazi(1)">1️⃣ Jedna</button>
-        <button class="btn-generate" id="btn2" onclick="trazi(2)">2️⃣ Dvije</button>
-        <button class="btn-generate" id="btn3" onclick="trazi(3)">3️⃣ Tri</button>
+        <button class="btn-generate" id="btn1" onclick="trazi(1)">1️⃣ Jedna riječ</button>
+        <button class="btn-generate" id="btn2" onclick="trazi(2)">2️⃣ Dvije riječi</button>
+        <button class="btn-generate" id="btn3" onclick="trazi(3)">3️⃣ Tri riječi</button>
     </div>
 
     <button class="btn-show-all" id="btnShowAll" onclick="prikaziSveAnagrame()">
@@ -452,7 +459,10 @@
         ⚠️ Generiranje zaustavljeno! Prikazani su anagrami pronađeni do trenutka prekida.
     </div>
 
-   
+    <div id="output">
+        <p style="text-align:center;opacity:0.7">Unesite ime i prezime, odaberite vrstu anagrama ili kliknite "Prikaži sve anagrame".</p>
+    </div>
+
     <div class="footer">
         <p>© 2026 Anagram HR Pro | Autor: Damir Magdić</p>
         <p>Rječnik se automatski učitava • 10s limit • <a href="#" onclick="prikaziSveAnagrame()">Prikaži sve</a></p>
@@ -698,6 +708,7 @@
             document.getElementById('timeStatus').textContent = searchTime + 's (timeout)';
             
             enableButtons();
+            isGenerating = false;
             
             setTimeout(() => {
                 document.getElementById('progressContainer').style.display = 'none';
@@ -722,6 +733,7 @@
             document.getElementById('timeStatus').textContent = searchTime + 's (prekinuto)';
             
             enableButtons();
+            isGenerating = false;
             
             setTimeout(() => {
                 document.getElementById('progressContainer').style.display = 'none';
@@ -755,14 +767,14 @@
                 return;
             }
 
+            // Ako su ime i prezime promijenjeni, resetiraj sve
+            if (ime !== posljednjeIme || prezime !== posljednjePrezime) {
+                sviAnagrami = { single: [], double: [], triple: [] };
+            }
+
             // Spremi ime i prezime
             posljednjeIme = ime;
             posljednjePrezime = prezime;
-            
-            // Resetiraj samo odgovarajuću kategoriju
-            if (maxWords === 1) sviAnagrami.single = [];
-            else if (maxWords === 2) sviAnagrami.double = [];
-            else if (maxWords === 3) sviAnagrami.triple = [];
 
             abortController = new AbortController();
             isGenerating = true;
@@ -817,6 +829,7 @@
                     document.getElementById('timeStatus').textContent = searchTime + 's';
                     document.getElementById('resultStatus').textContent = single.length;
                     
+                    // PRIKAŽI REZULTATE ODMAH
                     displaySingleResults(single);
                     
                     enableButtons();
@@ -830,7 +843,7 @@
                 return;
             }
 
-            // Više riječi
+            // Više riječi (2 ili 3)
             const multi = [];
             const stack = [];
             
@@ -843,6 +856,9 @@
             
             function processChunk() {
                 if (abortController.signal.aborted) {
+                    // Spremi i prikaži rezultate pri prekidu
+                    if (maxWords === 2) sviAnagrami.double = multi;
+                    else if (maxWords === 3) sviAnagrami.triple = multi;
                     displayMultiResults(multi, maxWords);
                     return;
                 }
@@ -888,6 +904,7 @@
                     if (maxWords === 2) sviAnagrami.double = multi;
                     else if (maxWords === 3) sviAnagrami.triple = multi;
                     
+                    // PRIKAŽI REZULTATE ODMAH
                     displayMultiResults(multi, maxWords);
                     
                     if (!abortController.signal.aborted) {
@@ -906,9 +923,7 @@
 
         function displaySingleResults(single) {
             const output = document.getElementById('output');
-            const searchTime = ((Date.now() - searchStartTime) / 1000).toFixed(1);
             
-            document.getElementById('timeStatus').textContent = searchTime + 's';
             document.getElementById('resultStatus').textContent = single.length;
             
             if (single.length) {
@@ -917,14 +932,15 @@
             } else {
                 output.innerHTML = '<p style="text-align:center">❌ Nema pronađenih anagrama s jednom riječju.</p>';
             }
+            
+            // Scroll do rezultata
+            output.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function displayMultiResults(multi, maxWords) {
             const output = document.getElementById('output');
             const label = maxWords === 2 ? 'dvije' : 'tri';
             
-            const searchTime = ((Date.now() - searchStartTime) / 1000).toFixed(1);
-            document.getElementById('timeStatus').textContent = searchTime + (abortController?.signal.aborted ? 's (prekinuto)' : 's');
             document.getElementById('resultStatus').textContent = multi.length;
             
             if (multi.length) {
@@ -934,11 +950,14 @@
             } else {
                 output.innerHTML = '<p style="text-align:center">❌ Nema pronađenih anagrama s ' + label + ' riječi.</p>';
             }
+            
+            // Scroll do rezultata
+            output.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // ==================== PRIKAŽI SVE ANAGRAME ====================
 
-        async function prikaziSveAnagrame() {
+        function prikaziSveAnagrame() {
             const ime = document.getElementById('ime').value.trim();
             const prezime = document.getElementById('prezime').value.trim();
             
@@ -954,100 +973,136 @@
                 posljednjePrezime = prezime;
             }
 
-            const output = document.getElementById('output');
-            output.innerHTML = '<p style="text-align:center">⏳ Generiram sve anagrame (1, 2 i 3 riječi)...</p>';
-            
-            // Generiraj sve tri vrste ako već nisu generirane
-            if (sviAnagrami.single.length === 0 && sviAnagrami.double.length === 0 && sviAnagrami.triple.length === 0) {
-                // Generiraj jednu po jednu
-                const s = getL(ime + prezime);
-                const target = cnt(s);
-                
-                if (isEmpty(target)) {
-                    output.innerHTML = '<p style="text-align:center">⚠️ Nema slova za obradu.</p>';
-                    return;
-                }
-
-                const candidates = [];
-                for (let w of wordSet) {
-                    if (w.length < 2) continue;
-                    const wc = cnt(w);
-                    if (can(wc, target)) candidates.push({word: w, cnt: wc});
-                }
-
-                // Single
-                output.innerHTML = '<p style="text-align:center">⏳ Generiram anagrame s jednom riječju...</p>';
-                await sleep(50);
-                
-                sviAnagrami.single = candidates.filter(c => {
-                    if (Object.keys(c.cnt).length !== Object.keys(target).length) return false;
-                    for (let k in target) if (c.cnt[k] !== target[k]) return false;
-                    return true;
-                }).map(c => c.word);
-
-                // Double
-                output.innerHTML = '<p style="text-align:center">⏳ Generiram anagrame s dvije riječi...</p>';
-                await sleep(50);
-                
-                const doubleResults = [];
-                const doubleStack = [];
-                for (let i = 0; i < candidates.length; i++) {
-                    const rem = subtract(target, candidates[i].cnt);
-                    doubleStack.push({idx: i, rem, path: [candidates[i].word], nextIdx: i + 1});
-                }
-                
-                let dCount = 0;
-                while (doubleStack.length && doubleResults.length < MAX_DISPLAY) {
-                    const item = doubleStack.pop();
-                    if (isEmpty(item.rem)) {
-                        if (item.path.length === 2) doubleResults.push(item.path);
-                        dCount++;
-                        continue;
-                    }
-                    if (item.path.length >= 2) continue;
-                    for (let i = item.nextIdx; i < candidates.length; i++) {
-                        const w = candidates[i];
-                        if (!can(w.cnt, item.rem)) continue;
-                        const newRem = subtract(item.rem, w.cnt);
-                        doubleStack.push({idx: i, rem: newRem, path: item.path.concat(w.word), nextIdx: i + 1});
-                    }
-                    dCount++;
-                }
-                sviAnagrami.double = doubleResults;
-
-                // Triple
-                output.innerHTML = '<p style="text-align:center">⏳ Generiram anagrame s tri riječi...</p>';
-                await sleep(50);
-                
-                const tripleResults = [];
-                const tripleStack = [];
-                for (let i = 0; i < candidates.length; i++) {
-                    const rem = subtract(target, candidates[i].cnt);
-                    tripleStack.push({idx: i, rem, path: [candidates[i].word], nextIdx: i + 1});
-                }
-                
-                let tCount = 0;
-                while (tripleStack.length && tripleResults.length < MAX_DISPLAY) {
-                    const item = tripleStack.pop();
-                    if (isEmpty(item.rem)) {
-                        if (item.path.length === 3) tripleResults.push(item.path);
-                        tCount++;
-                        continue;
-                    }
-                    if (item.path.length >= 3) continue;
-                    for (let i = item.nextIdx; i < candidates.length; i++) {
-                        const w = candidates[i];
-                        if (!can(w.cnt, item.rem)) continue;
-                        const newRem = subtract(item.rem, w.cnt);
-                        tripleStack.push({idx: i, rem: newRem, path: item.path.concat(w.word), nextIdx: i + 1});
-                    }
-                    tCount++;
-                }
-                sviAnagrami.triple = tripleResults;
+            // Ako već imamo neke rezultate, prikaži ih
+            if (sviAnagrami.single.length > 0 || sviAnagrami.double.length > 0 || sviAnagrami.triple.length > 0) {
+                displayAllResults();
+                return;
             }
 
-            // Prikaži sve rezultate
+            // Inače generiraj sve
+            generirajSveAsync();
+        }
+
+        async function generirajSveAsync() {
+            const ime = document.getElementById('ime').value.trim();
+            const prezime = document.getElementById('prezime').value.trim();
+            const output = document.getElementById('output');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            if (isGenerating) return;
+            
+            const s = getL(ime + prezime);
+            const target = cnt(s);
+            
+            if (isEmpty(target)) {
+                output.innerHTML = '<p style="text-align:center">⚠️ Nema slova za obradu.</p>';
+                return;
+            }
+
+            isGenerating = true;
+            disableButtons();
+            
+            progressContainer.style.display = 'block';
+            progressText.style.display = 'block';
+            progressBar.style.width = '5%';
+            progressText.textContent = '🔍 Generiram sve anagrame...';
+            
+            output.innerHTML = '<p style="text-align:center">⏳ Generiram sve anagrame (1, 2 i 3 riječi)...</p>';
+
+            const candidates = [];
+            for (let w of wordSet) {
+                if (w.length < 2) continue;
+                const wc = cnt(w);
+                if (can(wc, target)) candidates.push({word: w, cnt: wc});
+            }
+
+            // Single riječi
+            progressText.textContent = '🔍 Generiram anagrame s jednom riječju...';
+            progressBar.style.width = '15%';
+            await sleep(50);
+            
+            sviAnagrami.single = candidates.filter(c => {
+                if (Object.keys(c.cnt).length !== Object.keys(target).length) return false;
+                for (let k in target) if (c.cnt[k] !== target[k]) return false;
+                return true;
+            }).map(c => c.word);
+
+            // Dvije riječi
+            progressText.textContent = '🔍 Generiram anagrame s dvije riječi...';
+            progressBar.style.width = '40%';
+            await sleep(50);
+            
+            const doubleResults = [];
+            const doubleStack = [];
+            for (let i = 0; i < candidates.length; i++) {
+                const rem = subtract(target, candidates[i].cnt);
+                doubleStack.push({idx: i, rem, path: [candidates[i].word], nextIdx: i + 1});
+            }
+            
+            let dCount = 0;
+            while (doubleStack.length && doubleResults.length < MAX_DISPLAY) {
+                const item = doubleStack.pop();
+                if (isEmpty(item.rem)) {
+                    if (item.path.length === 2) doubleResults.push(item.path);
+                    dCount++;
+                    continue;
+                }
+                if (item.path.length >= 2) continue;
+                for (let i = item.nextIdx; i < candidates.length; i++) {
+                    const w = candidates[i];
+                    if (!can(w.cnt, item.rem)) continue;
+                    const newRem = subtract(item.rem, w.cnt);
+                    doubleStack.push({idx: i, rem: newRem, path: item.path.concat(w.word), nextIdx: i + 1});
+                }
+                dCount++;
+            }
+            sviAnagrami.double = doubleResults;
+
+            // Tri riječi
+            progressText.textContent = '🔍 Generiram anagrame s tri riječi...';
+            progressBar.style.width = '70%';
+            await sleep(50);
+            
+            const tripleResults = [];
+            const tripleStack = [];
+            for (let i = 0; i < candidates.length; i++) {
+                const rem = subtract(target, candidates[i].cnt);
+                tripleStack.push({idx: i, rem, path: [candidates[i].word], nextIdx: i + 1});
+            }
+            
+            let tCount = 0;
+            while (tripleStack.length && tripleResults.length < MAX_DISPLAY) {
+                const item = tripleStack.pop();
+                if (isEmpty(item.rem)) {
+                    if (item.path.length === 3) tripleResults.push(item.path);
+                    tCount++;
+                    continue;
+                }
+                if (item.path.length >= 3) continue;
+                for (let i = item.nextIdx; i < candidates.length; i++) {
+                    const w = candidates[i];
+                    if (!can(w.cnt, item.rem)) continue;
+                    const newRem = subtract(item.rem, w.cnt);
+                    tripleStack.push({idx: i, rem: newRem, path: item.path.concat(w.word), nextIdx: i + 1});
+                }
+                tCount++;
+            }
+            sviAnagrami.triple = tripleResults;
+
+            progressBar.style.width = '100%';
+            progressText.textContent = '✅ Završeno!';
+            
             displayAllResults();
+            
+            enableButtons();
+            isGenerating = false;
+            
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressText.style.display = 'none';
+            }, 1000);
         }
 
         function displayAllResults() {
@@ -1061,32 +1116,41 @@
             
             // Single
             if (sviAnagrami.single.length > 0) {
-                html += '<h4 style="margin-top:1em;color:#ffa502;">🔤 Jedna riječ (' + sviAnagrami.single.length + '):</h4>';
+                html += '<h4 style="color:#ffa502;">🔤 Jedna riječ (' + sviAnagrami.single.length + '):</h4>';
                 html += '<ul class="all-results">';
                 sviAnagrami.single.forEach(w => {
                     html += '<li>' + w + '</li>';
                 });
                 html += '</ul>';
+            } else {
+                html += '<h4 style="color:#ffa502;">🔤 Jedna riječ (0):</h4>';
+                html += '<p style="opacity:0.7;font-size:0.85em;">❌ Nema anagrama s jednom riječju.</p>';
             }
             
             // Double
             if (sviAnagrami.double.length > 0) {
-                html += '<h4 style="margin-top:1em;color:#00a8ff;">🔤 Dvije riječi (' + sviAnagrami.double.length + '):</h4>';
+                html += '<h4 style="color:#00a8ff;">🔤 Dvije riječi (' + sviAnagrami.double.length + '):</h4>';
                 html += '<ul class="all-results">';
                 sviAnagrami.double.forEach(a => {
                     html += '<li>' + a.join(' + ') + '</li>';
                 });
                 html += '</ul>';
+            } else {
+                html += '<h4 style="color:#00a8ff;">🔤 Dvije riječi (0):</h4>';
+                html += '<p style="opacity:0.7;font-size:0.85em;">❌ Nema anagrama s dvije riječi.</p>';
             }
             
             // Triple
             if (sviAnagrami.triple.length > 0) {
-                html += '<h4 style="margin-top:1em;color:#00cec9;">🔤 Tri riječi (' + sviAnagrami.triple.length + '):</h4>';
+                html += '<h4 style="color:#00cec9;">🔤 Tri riječi (' + sviAnagrami.triple.length + '):</h4>';
                 html += '<ul class="all-results">';
                 sviAnagrami.triple.forEach(a => {
                     html += '<li>' + a.join(' + ') + '</li>';
                 });
                 html += '</ul>';
+            } else {
+                html += '<h4 style="color:#00cec9;">🔤 Tri riječi (0):</h4>';
+                html += '<p style="opacity:0.7;font-size:0.85em;">❌ Nema anagrama s tri riječi.</p>';
             }
             
             if (total === 0) {
@@ -1123,6 +1187,7 @@
             document.getElementById('btn2').disabled = true;
             document.getElementById('btn3').disabled = true;
             document.getElementById('btnShowAll').disabled = true;
+            document.getElementById('btnClear').disabled = true;
             document.getElementById('ime').disabled = true;
             document.getElementById('prezime').disabled = true;
         }
@@ -1132,6 +1197,7 @@
             document.getElementById('btn2').disabled = false;
             document.getElementById('btn3').disabled = false;
             document.getElementById('btnShowAll').disabled = false;
+            document.getElementById('btnClear').disabled = false;
             document.getElementById('ime').disabled = false;
             document.getElementById('prezime').disabled = false;
         }
