@@ -1,2 +1,2 @@
- <p>• Generator hrvatskih anagrama •</p> 
- <p>• Upišite Ime i Prezime ili dvije riječi po vašem izboru •</p> 
+# Anagram HR Pro
+Generator anagrama hrvatskih imena ili riječi
